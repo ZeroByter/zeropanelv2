@@ -1,0 +1,10 @@
+# Caching schema
+<FilesMatch "\.(jpg|png|css|js)$">
+Header set Cache-Control "public, max-age=3600"
+</FilesMatch>
+
+RewriteEngine On
+RewriteBase /index.php
+#When index.php is in a subfolder, make sure to add subfolder to RewriteBase
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule . $1 [L,QSA]
