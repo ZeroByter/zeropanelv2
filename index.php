@@ -48,6 +48,8 @@
     }
 	$showNavbar = true;
 	$includeHead = true;
+	$linksOffset = "";
+	$resourceLinksOffset = "";
 	if(file_exists("config.php")){
 		$settings = include("config.php");
 		$linksOffset = $settings["linksOffset"];
