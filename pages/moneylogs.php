@@ -49,11 +49,16 @@
 		<div class="col-md-6 col-md-offset-3">
             <?php include("phpscripts/fillin/search.php") ?><br><br><br>
             <div>
-                <?php foreach($logs as $value){ ?>
+                <?php foreach($logs as $value){
+                    $value->admins_name = filterXSS($value->admins_name);
+                    $value->admins_playerid = filterXSS($value->admins_playerid);
+                    $value->players_name = filterXSS($value->players_name);
+                    $value->players_id = filterXSS($value->players_id);
+                    ?>
             		<div class="logContainer">
             			<div class="logHeader" data-log="<?php echo $value->id ?>">
             				<span style="float: right"><?php echo timestamp_to_date($value->time, true) ?></span>
-            				<?php echo $value->id ?>
+            				<?php echo "$value->admins_name ($value->admins_playerid) <i class='fa fa-arrow-right'></i> $value->players_name ($value->players_playerid)" ?>
             			</div>
             			<div class="logDetails" data-log="<?php echo $value->id ?>">
             				<div class="logWrapper" data-log="<?php echo $value->id ?>">

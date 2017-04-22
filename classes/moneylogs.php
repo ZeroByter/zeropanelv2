@@ -1,5 +1,24 @@
 <?php
     class moneylogs{
+		public function create_db(){
+            $conn = get_mysql_conn();
+            mysqli_query($conn, "CREATE TABLE IF NOT EXISTS le_compensation_log(
+                id int(10) NOT NULL auto_increment,
+                admins_id int(35) NOT NULL,
+                admins_playerid int(50) NOT NULL,
+                admins_name int(50) NOT NULL,
+                money_before int(50) NOT NULL,
+                money_given int(50) NOT NULL,
+                money_now int(50) NOT NULL,
+                update_type varchar(50) NOT NULL,
+                players_id int(50) NOT NULL,
+                players_playerid int(50) NOT NULL,
+                players_name int(50) NOT NULL,
+                time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY(id), UNIQUE id (id))");
+            mysqli_close($conn);
+        }
+		
         public function get_all($page){
 			$search = "";
 			if(isset($_GET["search"])){

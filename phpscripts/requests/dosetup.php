@@ -14,6 +14,8 @@
 		$config = array();
 		$config["pageBase"] = 1;
 		$config["linksOffset"] = "";
+		$config["resourceLinksOffset"] = "";
+		$config["cookie_id"] = rand_sha1(6);
         $last = str_replace(strrchr($_SERVER['REQUEST_URI'], '/'), '', $_SERVER['REQUEST_URI']).'/';
 		$config["pageURL"] = 'http://'.$_SERVER['HTTP_HOST'].$last;
 		$config["key"] = rand_sha1();
@@ -50,7 +52,7 @@
 		permissions::create("Admin", [], 2);
 		permissions::create("Super Admin", ["*"], 3);
 		accounts::create($_POST["defaultUsername"], $_POST["defaultPassword"], 3, $_POST["defaultPlayerID"]);
-		accounts::login($_POST["defaultUsername"], $_POST["defaultPassword"]);
+		accounts::login($_POST["defaultUsername"], $_POST["defaultPassword"], false);
         echo "success";
     }else{
         echo "Config file already exists!";
