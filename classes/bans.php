@@ -1,5 +1,24 @@
 <?php
     class bans{
+		public function create_db(){
+            $conn = get_mysql_conn();
+            mysqli_query($conn, "CREATE TABLE IF NOT EXISTS bans(
+                id int(10) NOT NULL auto_increment,
+                name varchar(255) NOT NULL,
+                steamid varchar(255) NOT NULL,
+                guid varchar(255) NOT NULL,
+                length varchar(255) NOT NULL,
+                created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                reason text NOT NULL,
+                evid text NOT NULL,
+                notes longtext NOT NULL,
+                active int(11) NOT NULL,
+                staff varchar(255) NOT NULL,
+                banid int(11) NOT NULL,
+            PRIMARY KEY(id), UNIQUE id (id))");
+            mysqli_close($conn);
+        }
+		
         public function get_all($page){
 			$search = "";
 			if(isset($_GET["search"])){

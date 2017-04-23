@@ -40,7 +40,10 @@
         permissions::create_db();
         accounts::create_db();
         sessions::create_db();
+        playernotes::create_db();
         logs::create_db();
+        moneylogs::create_db();
+        bans::create_db();
         servers::create_db();
         if($_POST["useRCON"] == "Yes"){
             $_POST["useRCON"] = true;
