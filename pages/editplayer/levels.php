@@ -13,15 +13,15 @@
         <center style="width:50%;margin:0px auto;">
             <div class="input-group form-group">
                 <span class="input-group-addon">Cop Level</span>
-                <input type="number" class="form-control" id="coplevel" value="<?php echo $player->coplevel ?>">
+                <input type="number" class="form-control" id="coplevel" value="<?php echo $player->coplevel ?>" max="<?php echo $player->coplevel ?>">
             </div>
             <div class="input-group form-group">
                 <span class="input-group-addon">Medic Level</span>
-                <input type="number" class="form-control" id="mediclevel" value="<?php echo $player->mediclevel ?>">
+                <input type="number" class="form-control" id="mediclevel" value="<?php echo $player->mediclevel ?>" max="<?php echo $player->mediclevel ?>">
             </div>
             <div class="input-group form-group">
                 <span class="input-group-addon">Donor Level</span>
-                <input type="number" class="form-control" id="donatorlvl" value="<?php echo $player->donatorlvl ?>">
+                <input type="number" class="form-control" id="donatorlvl" value="<?php echo $player->donatorlvl ?>" max="<?php echo $player->donatorlvl ?>">
             </div>
         </center>
     </div>

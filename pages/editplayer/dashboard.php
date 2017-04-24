@@ -42,10 +42,11 @@
 							<?php
 								$aliasesArray = json_decode(str_replace("`", '"', preg_replace('(^"|"$)', "", $player->aliases)));
 								foreach($aliasesArray as $key=>$value){
+									$value = filterXSS($value);
 									if($key >= count($aliasesArray)-1){
-										echo filterXSS("<b><h5 class='aliasText'>$value</h5></b>");
+										echo "<b><h5 class='aliasText'>$value</h5></b>";
 									}else{
-										echo filterXSS("<b><h5 class='aliasText'>$value</h5></b>, ");
+										echo "<b><h5 class='aliasText'>$value</h5></b>, ";
 									}
 								}
 							?>
