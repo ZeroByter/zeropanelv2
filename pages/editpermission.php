@@ -20,14 +20,41 @@
 		background-color: #d9534f;
 		border-color: #d43f3a;
 	}
-	#delete{
+	#delete, #renameBtn{
 		float: right;
 		margin: 10px;
 	}
+	#renameBtn{
+		margin-right: 0px;
+	}
 </style>
+
+<div class="modal fade" id="renameModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>&times;</span></button>
+				<h4 class="modal-title">Rename Permission</h4>
+			</div>
+			<div class="modal-body">
+				<input class="form-control" id="renameIn" value="<?php echo $permissionObj->name ?>"></input>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" id="renameModalBtn">Rename</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <br><br><br><br><br><br>
 <div>
+	<?php if($permissionObj->accesslevel == accounts::get_current_account()->accesslevel){ ?>
+	<div style="text-align:center;margin-bottom:30px;">
+		<h3>Becareful! You are editing your own access level!</h3>
+		<h4>Make sure to not remove your own perimssion to edit permissions!</h4>
+	</div>
+	<?php } ?>
 	<div class="custom-panel">
 		<h4 style="float:left;margin-left:20px;"><a href="/<?php echo $linksOffset ?>permissions"><button class="btn btn-sm btn-primary">Go Back</button></a> Edit Permission For Access-Level '<?php echo $permissionObj->name ?>'</h4>
 		<?php
@@ -35,6 +62,7 @@
 				echo "<button class='btn btn-danger' id='delete'>Delete Accesslevel</button>";
 			}
 		?>
+		<button class="btn btn-default" id="renameBtn" data-toggle="modal" data-target="#renameModal">Rename Permission</button>
 		<br><br><br><br>
         <center>
             <?php
@@ -83,7 +111,13 @@
 
 	$("#delete").click(function(){
 		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/deletepermission.php", {id: permissionID}, false, function(html){
-			window.location = "/<?php echo $linksOffset ?>permissions";
+			window.location = "/<?php echo $linksOffset ?>permissions"
+		})
+	})
+
+	$("#renameModalBtn").click(function(){
+		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/renamepermission.php", {id: permissionID, newName: $("#renameIn").val()}, false, function(html){
+			location.reload()
 		})
 	})
 </script>

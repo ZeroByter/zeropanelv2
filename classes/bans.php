@@ -89,7 +89,7 @@
             $length = mysqli_real_escape_string($conn, $length);
             $reason = mysqli_real_escape_string($conn, $reason);
             $notes = mysqli_real_escape_string($conn, $notes);
-            $result = mysqli_query($conn, "INSERT INTO bans(banid, name, steamid, guid, length, reason, notes, staff, created) VALUES ('".self::getBanCount()."', '$player->name', '$steamID', '$guid', '$length', '$reason', '$notes', '$currAccount->id', '".time()."')");
+            $result = mysqli_query($conn, "INSERT INTO bans(banid, name, steamid, guid, length, reason, notes, staff) VALUES ('".self::getBanCount()."', '$player->name', '$steamID', '$guid', '$length', '$reason', '$notes', '$currAccount->id')");
             mysqli_close($conn);
         }
 

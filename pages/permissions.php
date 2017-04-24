@@ -30,7 +30,7 @@
 	<br><br>
 	<hr class="hidden-xs">
 	<div class="col-lg-8 col-lg-offset-2 well">
-		<?php foreach(permissions::get_all() as $value){ ?>
+		<?php foreach(permissions::get_all_limited() as $value){ //AUTOMATE THIS TO MAKE IT SO THE FUNCTION INTERNALLY CHECKS THIS ?>
 			<a href="/<?php echo $linksOffset ?>permissions/<?php echo $value->id ?>" class="divLink"><?php echo "$value->name ($value->accesslevel)" ?> <span class="label label-default"><?php echo count(accounts::get_all_by_accesslevel($value->accesslevel)) ?> with this accesslevel</span></a>
 		<?php } ?>
 	</div>

@@ -1,5 +1,5 @@
 <head>
-	<title>ZeroPanel V1</title>
+	<title>ZeroPanel <?php echo getCurrentVersion() ?></title>
 	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/bootstrap.css"></link>
 	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/bootstrap-colorpicker.css"></link>
 	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/animate.css"></link>
@@ -12,7 +12,7 @@
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/bootstrap-notify.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/bootstrap-colorpicker.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/highcharts.js"></script>
-	
+
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/essentials.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/md5.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/lib-typedarrays.js"></script>

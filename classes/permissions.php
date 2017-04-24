@@ -20,6 +20,21 @@
             return array_filter($array);
         }
 
+        public function get_all_limited(){
+			if(permissions::user_has_permission("ignoreaccesslevel") || !accounts::is_logged_in()){
+				return self::get_all();
+			}
+
+			$currentAccessLevel = accounts::get_current_account()->accesslevel;
+
+            $conn = get_mysql_conn();
+    		$result = mysqli_query($conn, "SELECT * FROM permissions WHERE accesslevel <= '$currentAccessLevel' ORDER BY accesslevel DESC");
+    		mysqli_close($conn);
+            while($array[] = mysqli_fetch_object($result));
+
+            return array_filter($array);
+        }
+
 		public function get_by_id($id){
 			$conn = get_mysql_conn();
     		$id = mysqli_real_escape_string($conn, $id);
@@ -66,6 +81,14 @@
             $conn = get_mysql_conn();
     		$id = mysqli_real_escape_string($conn, $id);
     		mysqli_query($conn, "UPDATE permissions SET permissions='$permissions' WHERE id='$id'");
+    		mysqli_close($conn);
+        }
+
+		public function renamePermission($id, $newName){
+            $conn = get_mysql_conn();
+    		$id = mysqli_real_escape_string($conn, $id);
+    		$newName = mysqli_real_escape_string($conn, $newName);
+    		mysqli_query($conn, "UPDATE permissions SET name='$newName' WHERE id='$id'");
     		mysqli_close($conn);
         }
 
@@ -147,6 +170,7 @@
 			$permissions["permissionspage"][] = ["editpermissions", "Edit permissions"];
 			$permissions["permissionspage"][] = ["deletepermissions", "Delete permissions"];
 			$permissions["permissionspage"][] = ["createpermissions", "Create permissions"];
+			$permissions["permissionspage"][] = ["ignoreaccesslevel", "Ignore access level restrictions"];
 
             $permissions["staffpage"] = ["Staff Page"];
             $permissions["staffpage"][] = ["editstaff", "Edit staff"];

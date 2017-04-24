@@ -17,14 +17,14 @@
 							</div>
 							<div class="input-group form-group">
 								<span class="input-group-addon">Password</span>
-								<input type="password" class="form-control" id="password">
+								<input type="password" class="form-control" id="password" required>
 							</div>
                             <div class="input-group form-group">
                                 <span class="input-group-addon">Access Level</span>
                                 <select class="form-control" id="accesslevel">
                                     <?php
-                                        foreach(permissions::get_all() as $value){
-                                            echo "<option>$value->name ($value->accesslevel)</option>";
+                                        foreach(permissions::get_all_limited() as $value){
+                                            echo "<option data-level='$value->accesslevel'>$value->name ($value->accesslevel)</option>";
                                         }
                                     ?>
                                 </select>
@@ -40,7 +40,7 @@
 
 <script>
 	$("#submitForm").submit(function(){
-        var accesslevel = $("#accesslevel").val().match(/(\(\d\)$)/g)[0].replace(/(\(|\))/g, "")
+        var accesslevel = $("#accesslevel").find(":selected").data("level")
 		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/addstaff.php", {username: $("#username").val(), accesslevel: accesslevel, steamid: $("#steamid").val(), password: $("#password").val()}, false, function(html){
             window.location = "/<?php echo $linksOffset ?>staff/" + html.split("/")[1]
 		})

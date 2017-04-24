@@ -8,6 +8,11 @@
 			$allPermissions = permissions::getAllPermissions();
 			$currPermissions = json_decode($accesslevel->permissions);
 
+			if(!permissions::user_has_permission("ignoreaccesslevel") && $accesslevel->accesslevel >= accounts::get_current_account()->accesslevel){
+	            echo "You don't have permission to create edit this account!";
+	            return;
+	        }
+
 			if(count($currPermissions) <= 1 && @$currPermissions[0] == "*"){
 				$currPermissions = $allPermissions;
 			}

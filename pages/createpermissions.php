@@ -1,3 +1,10 @@
+<?php
+	$maxString = "";
+	if(!permissions::user_has_permission("ignoreaccesslevel")){
+		$maxString = "max='$currAccount->accesslevel'";
+	}
+?>
+
 <br><br><br><br><br><br>
 <div class="custom-panel">
 	<div class="row">
@@ -13,7 +20,7 @@
                             </div>
                             <div class="input-group form-group">
                                 <span class="input-group-addon">Access Level</span>
-                                <input type="text" class="form-control" id="accesslevel">
+                                <input type="number" class="form-control" id="accesslevel" <?php echo $maxString ?>>
                             </div>
                             <button class="btn btn-primary" style="float:right;">Add access level</button>
                         </form>

@@ -181,6 +181,11 @@
     			if($value->ip == $_SERVER['REMOTE_ADDR']){
     				$isAlreadyStored = true;
     				$value->lastseen = time();
+                    if(!empty($value->timesused)){
+                        $value->timesused = $value->timesused + 1;
+                    }else{
+                        $value->timesused = 1;
+                    }
     			}
     		}
 
@@ -189,6 +194,7 @@
     				"ip" => $_SERVER['REMOTE_ADDR'],
     				"firstseen" => time(),
     				"lastseen" => time(),
+    				"timesused" => 1,
     			));
     		}
 

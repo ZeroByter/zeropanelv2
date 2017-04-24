@@ -41,6 +41,12 @@
 	.same_ip_account_list_div:hover{
 		background: rgba(0,0,0,0.24);
 	}
+	.ipHistoryMark:first-of-type{
+		border-top: 1px #c0c0c0 solid;
+	}
+	.ipHistoryMark{
+		border-bottom: 1px #c0c0c0 solid;
+	}
 </style>
 
 <div id="mainIPHistoryDiv">
@@ -49,9 +55,17 @@
 		<div id="ipHistorySelect2">Other accounts with the same IP</div>
 	</div>
 	<div id="ipHistoryAccountHistory">
-		<?php foreach(accounts::get_iplist($user->id) as $value){
-			echo "<h4>$value->ip</h4><h5>Created at ".timestamp_to_date($value->firstseen, true)." and last seen at ".timestamp_to_date($value->lastseen,true)."</h5>";
-		} ?>
+		<?php foreach(accounts::get_iplist($user->id) as $value){ ?>
+			<div class='ipHistoryMark'>
+				<h4><?php echo $value->ip ?></h4>
+				<h5>Created at <?php echo timestamp_to_date($value->firstseen, true) ?> and last seen at <?php echo timestamp_to_date($value->lastseen,true) ?></h5>
+				<?php
+					if(isset($value->timesused)){
+						echo "<h5>Used $value->timesused time(s)</h5>";
+					}
+				?>
+			</div>
+		<?php } ?>
 	</div>
 	<div id="ipHistoryMatchingAccounts" style="display:none;">
 		<?php
