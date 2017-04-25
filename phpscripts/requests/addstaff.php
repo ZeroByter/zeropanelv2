@@ -4,7 +4,7 @@
     if(isset($_POST["username"]) && isset($_POST["accesslevel"]) && isset($_POST["steamid"]) && isset($_POST["password"])){
         if(permissions::user_has_permission("addstaff")){
             if(empty(accounts::get_by_username($_POST["username"])->id)){
-                if(!permissions::user_has_permission("ignoreaccesslevel") && $_POST["accesslevel"] >= accounts::get_current_account()->accesslevel){
+                if(!permissions::user_has_permission("ignoreaccesslevel") && permissions::get_by_id($_POST["accesslevel"])->accesslevel >= accounts::get_current_account()->accesslevel){
                     echo "You don't have permission to create an account with that access level!";
                     return;
                 }

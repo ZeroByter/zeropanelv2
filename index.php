@@ -95,7 +95,7 @@
 				if($furl[0] == "players"){
 					$page = "pages/players.php";
 					if(isset($furl[1]) && $furl[1] != ""){
-						$player = players::get_by_id($furl[1]);
+						$player = players::get_by_steamid($furl[1]);
 						if(isset($player->uid)){
 							$bans = bans::get_by_steamid($player->playerid);
 							$mainActive = "";
@@ -342,7 +342,7 @@
 			$page = "pages/login.php";
 		}
 
-		if($furl[0] == "playersbrowser"){
+		if($furl[0] == "playersbrowser" && @$settings["enablePlayersBrowser"]){
 			$showNavbar = false;
 			$page = "pages/playersbrowser.php";
 		}

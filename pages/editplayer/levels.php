@@ -10,7 +10,7 @@
 <div>
 	<div class="custom-panel">
 		<?php include("navbar.php") ?>
-        <center style="width:50%;margin:0px auto;">
+        <center style="width:25%;margin:0px auto;">
             <div class="input-group form-group">
                 <span class="input-group-addon">Cop Level</span>
                 <input type="number" class="form-control" id="coplevel" value="<?php echo $player->coplevel ?>" max="<?php echo $player->coplevel ?>">

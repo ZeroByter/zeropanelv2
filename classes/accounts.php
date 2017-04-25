@@ -27,7 +27,7 @@
 			}
 
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE id LIKE '$search' OR username LIKE '%$search%' OR playerid LIKE '$search' ORDER BY accesslevel DESC LIMIT ". ($page-1) * 30 .", 30");
+    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE id LIKE '$search' OR username LIKE '%$search%' OR playerid LIKE '$search' /*ORDER BY accesslevel DESC*/ LIMIT ". ($page-1) * 30 .", 30");
     		mysqli_close($conn);
             while($array[] = mysqli_fetch_object($result));
 

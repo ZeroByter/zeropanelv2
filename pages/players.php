@@ -33,7 +33,7 @@
 			</thead>
 			<tbody>
 				<?php foreach(players::get_all($pageNum) as $value){ ?>
-					<tr class="playerRow" data-id="<?php echo $value->uid ?>">
+					<tr class="playerRow" data-id="<?php echo $value->playerid ?>">
 						<td><?php echo filterXSS($value->name) ?></td>
 						<td><?php echo $value->playerid ?></td>
 						<td><?php echo $value->cash ?></td>

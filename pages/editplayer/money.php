@@ -12,7 +12,7 @@
 		<?php include("navbar.php") ?>
 		<?php if(permissions::user_has_permission("editmoneybank") || permissions::user_has_permission("editmoneycash")){ ?>
 	        <div class="row">
-	            <div class="col-md-6 col-md-offset-3">
+	            <div class="col-md-8 col-md-offset-2">
 	                <center>
 	                    <div class="input-group form-group">
 	                        <span class="input-group-addon">$</span>

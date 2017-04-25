@@ -41,7 +41,7 @@
 				<?php foreach($staff as $value){ $accesslevel = permissions::get_by_id($value->accesslevel) ?>
 					<tr class="itemRow" data-id="<?php echo $value->id ?>" data-banned="<?php echo ($value->banned) ? "1" : "0" ?>">
 						<td><?php echo $value->username; if($value->banned) echo " *banned*" ?></td>
-						<td><?php echo "$accesslevel->name ($value->accesslevel)" ?></td>
+						<td><?php echo "$accesslevel->name ($accesslevel->accesslevel)" ?></td>
 						<td><?php echo $value->playerid ?></td>
 					</tr>
 				<?php } ?>

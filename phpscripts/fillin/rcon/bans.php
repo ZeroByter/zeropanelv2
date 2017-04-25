@@ -12,8 +12,8 @@
 
         foreach($bans as $value){
             $banid = "";
-            if(preg_match("/(#\d)/", $value["3"])){
-                preg_match("/(#\d)/", $value["3"], $banid);
+            if(preg_match("/#\d+/", $value["3"])){
+                preg_match("/#\d+/", $value["3"], $banid);
                 $banid = preg_replace("/#/", "", $banid);
                 $banid = $banid[0];
             }
@@ -39,7 +39,7 @@
             }
 
             echo "
-                <tr data-id='$banid' data-rconid='{$value["0"]}' class='playerRow'>
+                <tr data-id='$banid' data-rconid='{$value["0"]}' data-steamid='$steamID' class='playerRow'>
                     <td>".filterXSS($value["1"])."</td>
                     <td>".filterXSS($name)."</td>
                     <td>$steamID</td>
@@ -64,7 +64,12 @@
         $(".actionButton").removeAttr("disabled")
         $(".playerRow").removeClass("activeRow")
         $(this).addClass("activeRow")
+        selectedBanRow = this
         selectedBan = $(this).data("id")
         selectedBanRConID = $(this).data("rconid")
+        selectedBanSteamID = $(this).data("steamid")
+        if(selectedBanSteamID == ""){
+            $("#redirectToPlayer").attr("disabled", "")
+        }
     })
 </script>

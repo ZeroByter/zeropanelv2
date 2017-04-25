@@ -24,7 +24,7 @@
                                 <select class="form-control" id="accesslevel">
                                     <?php
                                         foreach(permissions::get_all_limited() as $value){
-                                            echo "<option data-level='$value->accesslevel'>$value->name ($value->accesslevel)</option>";
+                                            echo "<option data-level='$value->id'>$value->name ($value->accesslevel)</option>";
                                         }
                                     ?>
                                 </select>

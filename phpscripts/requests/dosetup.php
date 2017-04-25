@@ -32,6 +32,7 @@
         $config["maxlevels"]["donatorlvl"] = 1;
         $config["licenseNames"] = [];
         $config["banCount"] = 0;
+        $config["enablePlayersBrowser"] = false;
 		file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/config.php", "<?php return " . var_export($config, true) . ";");
 	}
 

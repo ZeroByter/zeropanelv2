@@ -54,6 +54,12 @@
 					<span class="input-group-addon">Permissions Update Interval</span>
 					<input type="number" class="form-control" id="permUpdateInt" value="<?php echo $settings["permissionsUpdateInterval"] ?>" required>
 				</div>
+				<div class="input-group form-group">
+					<span class="input-group-addon">Allow the 'players browser' page</span>
+					<span class="input-group-addon">
+						<input type="checkbox" id="enablePlayersBrowser" <?php echo (@$settings["enablePlayersBrowser"]) ? "checked" : "" ?>>
+					</span>
+				</div>
 				<div class="well well-sm">
 					<h4>Max Access Levels</h4>
 					<div class="input-group form-group">
@@ -62,7 +68,7 @@
 					</div>
 					<div class="input-group form-group">
 						<span class="input-group-addon">Medic Level</span>
-						<input type="number" class="form-control" id="maxMedLevel" value="<?php echo $settings["maxlevels"]["mediclevel"] ?>" required>
+						<input type="number" class="form-control" id="maxMedLevel" value="<?php echo $settings["maxlevels"]["medlevel"] ?>" required>
 					</div>
 					<div class="input-group form-group">
 						<span class="input-group-addon">Donor Level</span>
@@ -107,6 +113,7 @@
 		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/editconfig/editsettings.php", {
 			communityName: $("#communityName").val(),
 			permUpdateInt: $("#permUpdateInt").val(),
+			enablePlayersBrowser: $("#enablePlayersBrowser").is(":checked"),
 			maxCopLevel: $("#maxCopLevel").val(),
 			maxMedLevel: $("#maxMedLevel").val(),
 			maxDonorLevel: $("#maxDonorLevel").val(),

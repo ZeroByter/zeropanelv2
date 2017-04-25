@@ -51,12 +51,15 @@
                 echo " <button class='btn btn-primary actionButton' id='removeBan' disabled>Remove Ban</button> ";
             }
         ?>
+        <button class='btn btn-primary actionButton' id='redirectToPlayer' disabled>Player Profile</button>
     </center>
 </div>
 
 <script>
+    var selectedBanRow = undefined
     var selectedBan = undefined
     var selectedBanRConID = undefined
+    var selectedBanSteamID = undefined
 
 	$.get("/<?php echo $resourceLinksOffset ?>phpscripts/fillin/rcon/bans.php", {id: "<?php echo $server->id ?>"}, function(html){
 		$("#tableBody").html(html)
@@ -64,7 +67,11 @@
 
     $("#removeBan").click(function(){
         essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/rcon/removeBan.php", {serverid: "<?php echo $server->id ?>", banid: selectedBanRConID}, false, function(html){
-            location.reload()
+            $(selectedBanRow).remove()
         })
+    })
+
+    $("#redirectToPlayer").click(function(){
+        window.location = "/players/" + selectedBanSteamID
     })
 </script>

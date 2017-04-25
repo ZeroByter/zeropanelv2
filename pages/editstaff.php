@@ -33,7 +33,7 @@
                                     <span class="input-group-addon">Access Level</span>
                                     <select class="form-control" id="accesslevel">
                                         <?php
-                                            foreach(permissions::get_all() as $value){
+                                            foreach(permissions::get_all_limited() as $value){
                                                 if($staff->accesslevel == $value->id){
                                                     echo "<option selected>$value->name ($value->accesslevel)</option>";
                                                 }else{
