@@ -54,7 +54,7 @@
 </div>
 
 <script>
-	var playerID = <?php echo $player->uid ?>;
+	var playerID = <?php echo $player->uid ?>
 	var serverid = 0
 	var bantime = 1
 	var bantype = "Minutes"
@@ -105,7 +105,7 @@
 		}
 
 		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/rcon/ban.php", {serverid: serverid, playerid: playerID, guid: essentials.steamIDToGUID("<?php echo $player->playerid ?>"), reason: $("#banReason").val(), notes: $("#banNotes").val(), time: getTime()}, false, function(){
-			window.location = "/players/" + playerID
+			window.location = "/players/" + <?php echo $player->playerid ?>
 		})
 		return false
 	})

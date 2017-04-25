@@ -12,13 +12,13 @@
                 reason text NOT NULL,
                 evid text NOT NULL,
                 notes longtext NOT NULL,
-                active int(11) NOT NULL,
+                active boolean NOT NULL DEFAULT 1,
                 staff varchar(255) NOT NULL,
                 banid int(11) NOT NULL,
             PRIMARY KEY(id), UNIQUE id (id))");
             mysqli_close($conn);
         }
-		
+
         public function get_all($page){
 			$search = "";
 			if(isset($_GET["search"])){
@@ -60,10 +60,17 @@
         public function get_by_banid($id){
             $conn = get_mysql_conn();
             $id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_query($conn, "SELECT * FROM bans WHERE banid='$id'");
+    		$result = mysqli_fetch_object(mysqli_query($conn, "SELECT * FROM bans WHERE banid='$id'"));
             mysqli_close($conn);
 
-            return mysqli_fetch_object($result);
+			var_dump($result);
+            if(strtotime(@$result->created) - time() + @$result->length * 60 > 0 || @$result->length == 0){
+                self::active($id);
+            }else{
+                self::inactive($id);
+            }
+
+            return $result;
         }
 
         public function getBanCount(){
@@ -89,7 +96,14 @@
             $length = mysqli_real_escape_string($conn, $length);
             $reason = mysqli_real_escape_string($conn, $reason);
             $notes = mysqli_real_escape_string($conn, $notes);
-            $result = mysqli_query($conn, "INSERT INTO bans(banid, name, steamid, guid, length, reason, notes, staff) VALUES ('".self::getBanCount()."', '$player->name', '$steamID', '$guid', '$length', '$reason', '$notes', '$currAccount->id')");
+            $result = mysqli_query($conn, "INSERT INTO bans(banid, name, steamid, guid, length, reason, notes, staff, active) VALUES ('".self::getBanCount()."', '$player->name', '$steamID', '$guid', '$length', '$reason', '$notes', '$currAccount->id', '1')");
+            mysqli_close($conn);
+        }
+
+        public function active($banid){
+            $conn = get_mysql_conn();
+            $banid = mysqli_real_escape_string($conn, $banid);
+    		mysqli_query($conn, "UPDATE bans SET active='1' WHERE banid='$banid'");
             mysqli_close($conn);
         }
 
