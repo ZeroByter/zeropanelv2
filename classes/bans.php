@@ -64,9 +64,7 @@
             mysqli_close($conn);
 
 			var_dump($result);
-            if(strtotime(@$result->created) - time() + @$result->length * 60 > 0 || @$result->length == 0){
-                self::active($id);
-            }else{
+            if(strtotime(@$result->created) - time() + @$result->length * 60 > 0 || @$result->length == 0){}else{
                 self::inactive($id);
             }
 
