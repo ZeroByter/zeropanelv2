@@ -25,24 +25,24 @@
 </div>
 <ul class="nav nav-tabs">
     <?php
-        echo "<li class='$mainActive'><a href='/".$linksOffset."players/$player->uid'>Main</a></li>";
+        echo "<li class='$mainActive'><a href='/".$linksOffset."players/$player->playerid'>Main</a></li>";
         if(permissions::user_has_permission("editlevels")){
-            echo "<li class='$levelsActive'><a href='/".$linksOffset."players/$player->uid/levels'>Levels</a></li>";
+            echo "<li class='$levelsActive'><a href='/".$linksOffset."players/$player->playerid/levels'>Levels</a></li>";
         }
         if(permissions::user_has_permission("editmoneybank") || permissions::user_has_permission("editmoneycash")){
-            echo "<li class='$moneyActive'><a href='/".$linksOffset."players/$player->uid/money'>Money</a></li>";
+            echo "<li class='$moneyActive'><a href='/".$linksOffset."players/$player->playerid/money'>Money</a></li>";
         }
         if(permissions::user_has_permission("editlicenses")){
-            echo "<li class='$licensesActive'><a href='/".$linksOffset."players/$player->uid/licenses'>Licenses</a></li>";
+            echo "<li class='$licensesActive'><a href='/".$linksOffset."players/$player->playerid/licenses'>Licenses</a></li>";
         }
         if(permissions::user_has_permission("editinventory")){
-            echo "<li class='$inventoriesActive'><a href='/".$linksOffset."players/$player->uid/inventory'>Inventories</a></li>";
+            echo "<li class='$inventoriesActive'><a href='/".$linksOffset."players/$player->playerid/inventory'>Inventories</a></li>";
         }
-        echo "<li class='$vehiclesActive'><a href='/".$linksOffset."players/$player->uid/vehicles'>Vehicles</a></li>";
-        echo "<li class='$housesActive'><a href='/".$linksOffset."players/$player->uid/houses'>Houses</a></li>";
-        echo "<li class='$notesActive'><a href='/".$linksOffset."players/$player->uid/notes'>Notes</a></li>";
+        echo "<li class='$vehiclesActive'><a href='/".$linksOffset."players/$player->playerid/vehicles'>Vehicles</a></li>";
+        echo "<li class='$housesActive'><a href='/".$linksOffset."players/$player->playerid/houses'>Houses</a></li>";
+        echo "<li class='$notesActive'><a href='/".$linksOffset."players/$player->playerid/notes'>Notes</a></li>";
         if(permissions::user_has_permission("banplayer")){
-            echo "<li class='$bansActive'><a href='/".$linksOffset."players/$player->uid/ban'><font color='red'>Ban</a></font></li>";
+            echo "<li class='$bansActive'><a href='/".$linksOffset."players/$player->playerid/ban'><font color='red'>Ban</a></font></li>";
         }
     ?>
 </ul>
