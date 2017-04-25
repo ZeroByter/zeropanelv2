@@ -1,7 +1,7 @@
 <?php
     include("../fillin/scripts.php");
 
-    if(isset($_POST["id"]) && isset($_POST["username"]) && isset($_POST["accesslevel"]) && isset($_POST["steamid"])){\
+    if(isset($_POST["id"]) && isset($_POST["username"]) && isset($_POST["accesslevel"]) && isset($_POST["steamid"])){
         $account = accounts::get_by_id($_POST["id"]);
 
         if(!permissions::user_has_permission("ignoreaccesslevel") && $account->accesslevel >= accounts::get_current_account()->accesslevel){
