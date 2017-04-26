@@ -1,5 +1,5 @@
 <head>
-	<title>ZeroPanel <?php echo getCurrentVersion() ?></title>
+	<title><?php echo !empty($settings["communityName"]) ? $settings["communityName"] . " - " : "" ?> ZeroPanel <?php echo getCurrentVersion() ?></title>
 	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/bootstrap.css"></link>
 	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/bootstrap-colorpicker.css"></link>
 	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/animate.css"></link>

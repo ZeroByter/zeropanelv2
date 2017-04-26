@@ -12,7 +12,7 @@
 </style>
 
 <center>
-    <h1><?php echo $settings["communityName"] ?></h1>
+    <h1><?php echo filterXSS($settings["communityName"]) ?></h1>
 </center>
 
 <br><br><br>
@@ -30,7 +30,7 @@
         <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> Newest Player</h3></div>
-                <a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $allPlayers[0]->uid ?>"><div class="panel-body">
+                <a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $allPlayers[0]->playerid ?>"><div class="panel-body">
                     <h4><?php echo filterXSS($allPlayers[0]->name) ?></h4>
                 </div></a>
             </div>
@@ -116,7 +116,7 @@
                 <tbody>
                     <?php foreach($allPlayersCash as $value){ ?>
                         <tr>
-                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->uid ?>"><?php echo filterXSS($value->name) ?></a></td>
+                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->playerid ?>"><?php echo filterXSS($value->name) ?></a></td>
                             <td><?php echo $value->bankacc ?></td>
                             <td><?php echo $value->cash ?></td>
                         </tr>
@@ -136,7 +136,7 @@
                 <tbody>
                     <?php foreach($allPlayersCopLvl as $value){ ?>
                         <tr>
-                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->uid ?>"><?php echo filterXSS($value->name) ?></a></td>
+                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->playerid ?>"><?php echo filterXSS($value->name) ?></a></td>
                             <td><?php echo $value->coplevel ?></td>
                         </tr>
                     <?php } ?>

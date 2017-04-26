@@ -27,11 +27,18 @@
 			}
 
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE id LIKE '$search' OR username LIKE '%$search%' OR playerid LIKE '$search' /*ORDER BY accesslevel DESC*/ LIMIT ". ($page-1) * 30 .", 30");
+    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE id LIKE '$search' OR username LIKE '%$search%' OR playerid LIKE '$search' LIMIT ". ($page-1) * 30 .", 30");
     		mysqli_close($conn);
             while($array[] = mysqli_fetch_object($result));
+			$array = array_filter($array);
 
-            return array_filter($array);
+			function sorting($a, $b){
+				return strcmp(permissions::get_by_id($b->accesslevel)->accesslevel, permissions::get_by_id($a->accesslevel)->accesslevel);
+			}
+
+			usort($array, "sorting");
+
+            return $array;
         }
 
         public function get_all_real(){
@@ -41,11 +48,17 @@
 			}
 
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE id LIKE '$search' OR username LIKE '%$search%' OR playerid LIKE '$search' ORDER BY accesslevel DESC");
+    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE id LIKE '$search' OR username LIKE '%$search%' OR playerid LIKE '$search'");
     		mysqli_close($conn);
             while($array[] = mysqli_fetch_object($result));
 
-            return array_filter($array);
+			function sorting($a, $b){
+				return strcmp(permissions::get_by_id($b->accesslevel)->accesslevel, permissions::get_by_id($a->accesslevel)->accesslevel);
+			}
+
+			usort($array, "sorting");
+
+            return $array;
         }
 
         public function get_all_by_accesslevel($accesslevel){
