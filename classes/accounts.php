@@ -102,7 +102,9 @@
             $conn = get_mysql_conn();
             $salt = self::generate_salt();
             $username = mysqli_real_escape_string($conn, $username);
-            $password = mysqli_real_escape_string($conn, hash("sha256", "$password:$salt"));
+            $password = mysqli_real_escape_string($conn, $password);
+            $password = hash("sha256", "$password");
+            $password = hash("sha256", "$password:$salt");
             $accesslevel = mysqli_real_escape_string($conn, $accesslevel);
             $playerid = mysqli_real_escape_string($conn, $playerid);
             mysqli_query($conn, "INSERT INTO accounts(username, password, salt, accesslevel, playerid) VALUES ('$username', '$password', '$salt', '$accesslevel', '$playerid')");

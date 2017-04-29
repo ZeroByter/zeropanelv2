@@ -49,7 +49,7 @@
     $("#submitForm").submit(function(){
         essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/login.php", {
             username: $("#username").val(),
-            password: $("#password").val(),
+            password: sha256($("#password").val()),
             rememberme: false,//$("#rememberme").prop("checked"),
         }, false, function(){ location.reload() })
         return false

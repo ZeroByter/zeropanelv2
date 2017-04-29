@@ -12,9 +12,9 @@
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/bootstrap-notify.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/bootstrap-colorpicker.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/highcharts.js"></script>
-
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/essentials.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/md5.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/lib-typedarrays.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/BigInteger.js"></script>
+	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/sha256.js"></script>
 </head>
