@@ -17,7 +17,7 @@
             </div>
             <div class="input-group form-group">
                 <span class="input-group-addon">Medic Level</span>
-                <input type="number" class="form-control" id="mediclevel" value="<?php echo $player->mediclevel ?>" max="<?php echo $settings["maxlevels"]["medlevel"] ?>">
+                <input type="number" class="form-control" id="mediclevel" value="<?php echo $player->mediclevel ?>" max="<?php echo $settings["maxlevels"]["mediclevel"] ?>">
             </div>
             <div class="input-group form-group">
                 <span class="input-group-addon">Donor Level</span>
