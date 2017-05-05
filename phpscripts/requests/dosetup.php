@@ -12,12 +12,10 @@
 
 	function generateConfigFile(){
 		$config = array();
-		$config["pageBase"] = 1;
 		$config["linksOffset"] = "";
 		$config["resourceLinksOffset"] = "";
 		$config["cookie_id"] = rand_sha1(6);
         $last = str_replace(strrchr($_SERVER['REQUEST_URI'], '/'), '', $_SERVER['REQUEST_URI']).'/';
-		$config["pageURL"] = 'http://'.$_SERVER['HTTP_HOST'].$last;
 		$config["key"] = rand_sha1();
 		$config["communityName"] = $_POST["communityName"];
 		$config["mysql"] = array();
@@ -37,27 +35,31 @@
 	}
 
     if(!file_exists($_SERVER['DOCUMENT_ROOT'] . "/config.php")){
-		generateConfigFile();
-        permissions::create_db();
-        accounts::create_db();
-        sessions::create_db();
-        playernotes::create_db();
-        logs::create_db();
-        moneylogs::create_db();
-        bans::create_db();
-        servers::create_db();
-        if($_POST["useRCON"] == "Yes"){
-            $_POST["useRCON"] = true;
+        if(@mysqli_ping(@mysqli_connect($_POST["sqlHost"], $_POST["sqlUsername"], $_POST["sqlPassword"], $_POST["sqlDBName"]))){
+    		generateConfigFile();
+            permissions::create_db();
+            accounts::create_db();
+            sessions::create_db();
+            playernotes::create_db();
+            logs::create_db();
+            moneylogs::create_db();
+            bans::create_db();
+            servers::create_db();
+            if($_POST["useRCON"] == "Yes"){
+                $_POST["useRCON"] = true;
+            }else{
+                $_POST["useRCON"] = false;
+            }
+            servers::create($_POST["serverName"], $_POST["useRCON"], $_POST["rconIP"], $_POST["rconPort"], $_POST["rconPassword"]);
+    		permissions::create("Moderator", [], 1);
+    		permissions::create("Admin", [], 2);
+    		permissions::create("Super Admin", ["*"], 3);
+    		accounts::create($_POST["defaultUsername"], $_POST["defaultPassword"], 3, $_POST["defaultPlayerID"]);
+    		accounts::login($_POST["defaultUsername"], $_POST["defaultPassword"], false);
+            echo "success";
         }else{
-            $_POST["useRCON"] = false;
+            echo "Connection to MySQL database failed! Are you using the correct details?";
         }
-        servers::create($_POST["serverName"], $_POST["useRCON"], $_POST["rconIP"], $_POST["rconPort"], $_POST["rconPassword"]);
-		permissions::create("Moderator", [], 1);
-		permissions::create("Admin", [], 2);
-		permissions::create("Super Admin", ["*"], 3);
-		accounts::create($_POST["defaultUsername"], $_POST["defaultPassword"], 3, $_POST["defaultPlayerID"]);
-		accounts::login($_POST["defaultUsername"], $_POST["defaultPassword"], false);
-        echo "success";
     }else{
         echo "Config file already exists!";
     }

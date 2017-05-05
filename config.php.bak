@@ -1,0 +1,26 @@
+<?php return array (
+  'linksOffset' => '',
+  'resourceLinksOffset' => '',
+  'cookie_id' => 'a94546',
+  'key' => 'cba7e78611c6fb5822273a809928b54f',
+  'communityName' => 'bunch of fucks',
+  'mysql' =>
+  array (
+    'ip' => 'fAJKie3QK6EHfbQVgxB2+DG3DtZ0GP7hr3XqXezzBgQ=',
+    'username' => 'TFcSk1mmwCra532FSIpyEaQBtk+rRqd8AqODltPwH0Q=',
+    'password' => 'TTvJvoiDNslFfOnF0uwkyYNZtkQvbtqiQP9Klm292IQ=',
+    'dbname' => 'mG6MF8NQv6VeX13Yvl1VGkCq0E833wBqiRWgcnSoCKI=',
+  ),
+  'permissionsUpdateInterval' => '8',
+  'maxlevels' =>
+  array (
+    'coplevel' => '7',
+    'mediclevel' => '5',
+    'donorlevel' => '1',
+  ),
+  'licenseNames' =>
+  array (
+  ),
+  'permUpdateInt' => '8',
+  'enablePlayersBrowser' => false,
+);

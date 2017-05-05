@@ -28,7 +28,7 @@
 </style>
 
 <br><br><br><br><br><br>
-<div class="custom-panel">
+<div class="custom-panel" style="overflow:scroll;">
     <a href="/<?php echo $linksOffset ?>rcon/<?php echo $server->id ?>" style="margin:10px;"><button class="btn btn-sm btn-primary">Go Back</button></a>
     <center>
         <table class="table">
