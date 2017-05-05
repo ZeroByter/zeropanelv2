@@ -107,7 +107,7 @@
             $password = hash("sha256", "$password:$salt");
             $accesslevel = mysqli_real_escape_string($conn, $accesslevel);
             $playerid = mysqli_real_escape_string($conn, $playerid);
-            mysqli_query($conn, "INSERT INTO accounts(username, password, salt, accesslevel, playerid) VALUES ('$username', '$password', '$salt', '$accesslevel', '$playerid')");
+            mysqli_query($conn, "INSERT INTO accounts(username, password, salt, accesslevel, playerid, created, iplist, banned) VALUES ('$username', '$password', '$salt', '$accesslevel', '$playerid', CURRENT_TIMESTAMP, '[]', false)");
             $createdID = mysqli_insert_id($conn);
             mysqli_close($conn);
             return $createdID;

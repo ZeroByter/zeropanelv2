@@ -60,7 +60,7 @@
 
 <script>
     $("#submitForm").submit(function(){
-        essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/editprofile.php", {playerid: $("#playerid").val(), currpass: $("#currpass").val(), newpass: $("#newpass").val()}, false, function(){
+        essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/editprofile.php", {playerid: $("#playerid").val(), currpass: $("#currpass").val(), newpass: sha256($("#newpass").val())}, false, function(){
             location.reload()
         })
         return false

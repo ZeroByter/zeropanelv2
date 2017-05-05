@@ -5,7 +5,7 @@
         $currAccount = accounts::get_current_account();
         accounts::changePlayerID($currAccount->id, $_POST["playerid"]);
         if($_POST["newpass"] != ""){
-            if(hash("sha256", $_POST["currpass"] . ":$currAccount->salt") == $currAccount->password){
+            if(hash("sha256", hash("sha256", $_POST["currpass"]) . ":$currAccount->salt") == $currAccount->password){
                 accounts::changePassword($_POST["newpass"]);
                 echo "success";
             }else{
