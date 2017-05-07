@@ -13,4 +13,5 @@
     include(__DIR__ . "/../../classes/vehicles.php");
     include(__DIR__ . "/../../classes/servers.php");
     include(__DIR__ . "/../../classes/arc.php");
+    include(__DIR__ . "/../../classes/staffchat.php");
 ?>

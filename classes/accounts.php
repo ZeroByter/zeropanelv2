@@ -152,6 +152,8 @@
                     $_SESSION["permissionsUpdateInterval"] = 0;
 					$_SESSION["permissions"] = [];
                     $_SESSION["keepSession"] = $rememberme;
+                    $_SESSION["lastChatView"] = 8^9;
+                    $_SESSION["lastChatType"] = 8^9;
                     if($rememberme){
                         setcookie("zeroforumsv2_" . get_config()["cookie_id"], $_COOKIE["zeroforumsv2_" . get_config()["cookie_id"]], time() + 86400);
                     }
@@ -283,13 +285,13 @@
     		mysqli_close($conn);
 		}
 
-        public function changePassword($password){ //Not asking for ID because we don't want someone editing someone else's password
-			$currAccount = self::get_current_account();
+        public function changePassword($id, $password){
+			$currAccount = self::get_by_id($id);
 
-			$newPassword = hash("sha256", "$password:$currAccount->salt");
-			$conn = get_mysql_conn();
-    		$newPassword = mysqli_real_escape_string($conn, $newPassword);
-    		mysqli_query($conn, "UPDATE accounts SET password='$newPassword' WHERE id='$currAccount->id'");
+			$password = hash("sha256", "$password:$currAccount->salt");
+            $conn = get_mysql_conn();
+            $id = mysqli_real_escape_string($conn, $id);
+    		mysqli_query($conn, "UPDATE accounts SET password='$password' WHERE id='$id'");
     		mysqli_close($conn);
 		}
     }

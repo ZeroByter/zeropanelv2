@@ -17,4 +17,5 @@
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/lib-typedarrays.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/BigInteger.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/sha256.js"></script>
+	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/chat.js"></script>
 </head>

@@ -44,9 +44,10 @@
     		return mysqli_fetch_object($result);
 		}
 
-		public function get_by_accesslevel($accesslevel){
+		public function get_by_accesslevel($id){
 			$conn = get_mysql_conn();
-    		$accesslevel = mysqli_real_escape_string($conn, $accesslevel);
+    		$id = mysqli_real_escape_string($conn, $id);
+            $accesslevel = mysqli_fetch_object(mysqli_query($conn, "SELECT accesslevel FROM permissions WHERE id='$id'"))->accesslevel;
     		$result = mysqli_query($conn, "SELECT * FROM permissions WHERE accesslevel='$accesslevel'");
     		mysqli_close($conn);
 
@@ -135,6 +136,10 @@
 			$permissions["navigationbar"][] = ["logspage", "View the logs page"];
             $permissions["navigationbar"][] = ["sessionspage", "View the sessions page"];
 
+            $permissions["chat"] = ["Staff Chat"];
+            $permissions["chat"][] = ["viewstaffchat", "View the staff chat"];
+            $permissions["chat"][] = ["typestaffchat", "Type in the staff chat"];
+
             $permissions["playerpage"] = ["Edit Player Page"];
             $permissions["playerpage"][] = ["editlevels", "Edit in-game levels"];
             $permissions["playerpage"][] = ["editmoneybank", "Add or remove bank money"];
@@ -176,6 +181,7 @@
             $permissions["staffpage"][] = ["editstaff", "Edit staff"];
             $permissions["staffpage"][] = ["addstaff", "Add staff"];
             $permissions["staffpage"][] = ["banstaff", "Ban/unban staff"];
+            $permissions["staffpage"][] = ["editstaffpass", "Edit staff's password"];
 
             $permissions["sessionspage"] = ["Sessions Page"];
             $permissions["sessionspage"][] = ["deletesessions", "Delete/logout sessions"];

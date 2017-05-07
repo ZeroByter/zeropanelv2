@@ -29,15 +29,22 @@
                                     <span class="input-group-addon">Username</span>
                                     <input type="text" class="form-control" value="<?php echo $staff->username ?>" id="username">
                                 </div>
+								<?php if(permissions::user_has_permission("editstaffpass")){ ?>
+                                <div class="input-group form-group">
+                                    <span class="input-group-addon">New password</span>
+                                    <input type="password" class="form-control" id="newpass">
+									<span class="input-group-btn"><button class="btn btn-primary" id="newpassbtn">Edit New Password</button></span>
+                                </div>
+								<?php } ?>
                                 <div class="input-group form-group">
                                     <span class="input-group-addon">Access Level</span>
                                     <select class="form-control" id="accesslevel">
                                         <?php
                                             foreach(permissions::get_all_limited() as $value){
                                                 if($staff->accesslevel == $value->id){
-                                                    echo "<option selected>$value->name ($value->accesslevel)</option>";
+                                                    echo "<option data-id='$value->id' selected>$value->name ($value->accesslevel)</option>";
                                                 }else{
-                                                    echo "<option>$value->name ($value->accesslevel)</option>";
+                                                    echo "<option data-id='$value->id'>$value->name ($value->accesslevel)</option>";
                                                 }
                                             }
                                         ?>
@@ -69,7 +76,7 @@
 
 <script>
 	$("#submitForm").submit(function(){
-        var accesslevel = $("#accesslevel").val().match(/(\(\d\)$)/g)[0].replace(/(\(|\))/g, "")
+        var accesslevel = $("#accesslevel").find(":selected").data("id")
 		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/editstaff.php", {id: <?php echo $staff->id ?>, username: $("#username").val(), accesslevel: accesslevel, steamid: $("#steamid").val()}, false, function(){
             essentials.message("Staff edited!", "success")
 		})
@@ -91,5 +98,11 @@
 	}
 	$("#iphistory").click(function(){
 		getIPHistoryFillin(<?php echo $staff->id ?>)
+	})
+
+	$("#newpassbtn").click(function(){
+		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/editstaffpass.php", {id: <?php echo $staff->id ?>, pass: sha256($("#newpass").val())}, false, function(){
+			essentials.message("New password edited!", "success")
+		})
 	})
 </script>

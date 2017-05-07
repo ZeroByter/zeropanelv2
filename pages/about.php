@@ -36,7 +36,7 @@
 <center>
     <h2>ZeroPanel is developed by ZeroByter, it is open source on <a href="https://github.com/ZeroByter/zeropanelv2" target="_blank">GitHub</a>.</h2>
     <h3>ZeroPanel is entirely based off <a href="https://github.com/Cyberbyte-Studios/CyberWorks" target="_blank">CyberWorks</a>' panel, ZeroPanel is simply redesigned and less buggy with modern Arma than <a href="https://github.com/Cyberbyte-Studios/CyberWorks" target="_blank">CyberWorks</a>.</h3>
-    <img src="logo.png"></img>
+    
     <div id="versionText">
         <?php
             $compareVersions = compareVersions();

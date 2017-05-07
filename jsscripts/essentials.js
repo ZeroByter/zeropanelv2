@@ -1,6 +1,6 @@
 var essentials = new function(){
-    this.sendPost = function(url, array, consoleLog = false, successFunction=function(html){}){
-        $.post(url, array, function(html){
+    this.sendPost = function(url, array, consoleLog = false, successFunction=function(html){}, errorFunction=function(html){}){
+		$.post(url, array, function(html){
             if(consoleLog){
                 console.log(html)
             }
@@ -15,7 +15,10 @@ var essentials = new function(){
                     type: "danger",
                     z_index: 10300001,
                 })
+				errorFunction(html)
             }
+			
+			return html
         })
     }
 

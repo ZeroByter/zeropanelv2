@@ -49,7 +49,7 @@
 
 <br><br><br><br><br><br>
 <div>
-	<?php if($permissionObj->accesslevel == accounts::get_current_account()->accesslevel){ ?>
+	<?php if($permissionObj->accesslevel == permissions::get_by_id(accounts::get_current_account()->accesslevel)->accesslevel){ ?>
 	<div style="text-align:center;margin-bottom:30px;">
 		<h3>Becareful! You are editing your own access level!</h3>
 		<h4>Make sure to not remove your own perimssion to edit permissions!</h4>

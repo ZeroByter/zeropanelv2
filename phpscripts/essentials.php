@@ -191,4 +191,16 @@
 		//1 = should not happen, current version is earlier than github version
 		return version_compare(getCurrentVersion(), getGitHubVersion());
     }
+
+    function initliazeFirstTimeDatabase(){
+        permissions::create_db();
+        accounts::create_db();
+        sessions::create_db();
+        playernotes::create_db();
+        logs::create_db();
+        moneylogs::create_db();
+        bans::create_db();
+        servers::create_db();
+        staffchat::create_db();
+    }
 ?>

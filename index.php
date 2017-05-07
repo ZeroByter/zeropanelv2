@@ -77,7 +77,7 @@
 				$showNavbar = false;
 				$page = "pages/banned.php";
 			}else{
-				$currAccessLevel = permissions::get_by_accesslevel($currAccount->accesslevel);
+				$currAccessLevel = permissions::get_by_id($currAccount->accesslevel);
 				if(!isset($_SESSION["permissions"])){
 					$_SESSION["permissions"] = [];
 				}
@@ -368,6 +368,9 @@
 	}
 	if($showNavbar){
 		include("phpscripts/fillin/navbar.php");
+		if(permissions::user_has_permission("viewstaffchat")){
+			include("phpscripts/fillin/chat.php");
+		}
 	}
 ?>
 <div id="body_div" <?php if(!$showNavbar){ echo "style='width:100%;'"; } ?>>

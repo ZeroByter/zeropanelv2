@@ -37,14 +37,7 @@
     if(!file_exists($_SERVER['DOCUMENT_ROOT'] . "/config.php")){
         if(@mysqli_ping(@mysqli_connect($_POST["sqlHost"], $_POST["sqlUsername"], $_POST["sqlPassword"], $_POST["sqlDBName"]))){
     		generateConfigFile();
-            permissions::create_db();
-            accounts::create_db();
-            sessions::create_db();
-            playernotes::create_db();
-            logs::create_db();
-            moneylogs::create_db();
-            bans::create_db();
-            servers::create_db();
+            initliazeFirstTimeDatabase();
             if($_POST["useRCON"] == "Yes"){
                 $_POST["useRCON"] = true;
             }else{

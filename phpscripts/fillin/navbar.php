@@ -54,6 +54,6 @@
 			echo '<a href="/'.$linksOffset.'logs"><div class="navbarItem"><i class="fa fa-list" aria-hidden="true"></i> Logs</div></a>';
 		}
 	?>
-	<a href="/<?php echo $resourceLinksOffset ?>about"><div <?php echo compareVersions() == -1 ? "style='color:#e65454;'" : "" ?> class="navbarItem"><i class="fa fa-info" aria-hidden="true"></i> About</div></a>
+	<a href="/<?php echo $resourceLinksOffset ?>about"><div <?php echo compareVersions() == -1 ? "style='color:#e65454;'" : "style='color:#00b900'" ?> class="navbarItem"><i class="fa fa-info" aria-hidden="true"></i> About</div></a>
     <a href="/<?php echo $resourceLinksOffset ?>phpscripts/requests/logout.php"><div class="navbarItem"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</div></a>
 </div>

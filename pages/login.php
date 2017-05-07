@@ -1,4 +1,7 @@
 <style>
+	a{
+		text-decoration: underline;
+	}
     #body_div{
 		//background: #337ab7;
 		background: #316088;
@@ -36,6 +39,7 @@
                     <!--div class="checkbox">
                         <label><input type="checkbox" id="rememberme">Remember me</label>
                     </div!-->
+					<div class="alert alert-info" style="display:none;" id="loginAlert">Having problems logging in since <a href="https://github.com/ZeroByter/zeropanelv2/wiki/v.2.0.7.7.3-non-compability-with-older-versions" target="_blank">v.2.0.7.7.1</a>? Passwords have changed since then! Click the version text to learn how to fix your panel!</div>
 					<button type="submit" class="btn btn-primary" style="float:right;"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
 				</form>
 			</div>
@@ -46,12 +50,18 @@
 <span id="versionText">Version <?php echo getCurrentVersion() ?></span>
 
 <script>
+	var loginMsg = "";
     $("#submitForm").submit(function(){
-        essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/login.php", {
+        loginMsg = essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/login.php", {
             username: $("#username").val(),
             password: sha256($("#password").val()),
             rememberme: false,//$("#rememberme").prop("checked"),
-        }, false, function(){ location.reload() })
+        }, false, function(){ location.reload() }, function(html){
+			if(html == "Wrong password!"){
+				$("#loginAlert").css("display", "block")
+			}
+		})
+
         return false
     })
 </script>

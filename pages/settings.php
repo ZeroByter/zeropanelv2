@@ -42,6 +42,8 @@
 				</div>
 				<button type="submit" class="btn btn-primary"><i class="fa fa-edit" aria-hidden="true"></i> Edit MySQL Settings</button>
 			</form>
+			<br><br><br>
+			<button data-toggle="tooltip" data-placement="bottom" title="Tables that already exist won't be redone!" class="btn btn-danger" style="float:right;" id="redoMySQLTables"><i class="fa fa-repeat" aria-hidden="true"></i> Reinitalize MySQL tables</button>
 		</div>
 		<div class="col-md-6">
 			<h3>Other Settings</h3>
@@ -55,7 +57,7 @@
 					<input type="number" class="form-control" id="permUpdateInt" value="<?php echo $settings["permissionsUpdateInterval"] ?>" required>
 				</div>
 				<div class="input-group form-group">
-					<span class="input-group-addon">Allow the 'players browser' page</span>
+					<span class="input-group-addon">Enable the 'players browser' page</span>
 					<span class="input-group-addon">
 						<input type="checkbox" id="enablePlayersBrowser" <?php echo (@$settings["enablePlayersBrowser"]) ? "checked" : "" ?>>
 					</span>
@@ -123,5 +125,11 @@
 			location.reload()
 		})
 		return false
+	})
+
+	$("#redoMySQLTables").click(function(){
+		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/editconfig/redomysqltables.php", {}, false, function(){
+			essentials.message("MySQL tables redone!", "success")
+		})
 	})
 </script>
