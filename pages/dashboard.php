@@ -1,6 +1,7 @@
 <?php
     $allPlayers = players::get_all_real();
     $allPlayersCash = players::getAllByMoney();
+    $allPlayersCashPoor = players::getAllByMoney(true);
     $allPlayersCopLvl = players::getAllByCopLvl();
     $allVehicles = vehicles::get_all_real();
 ?>
@@ -115,6 +116,27 @@
                 </thead>
                 <tbody>
                     <?php foreach($allPlayersCash as $value){ ?>
+                        <tr>
+                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->playerid ?>"><?php echo filterXSS($value->name) ?></a></td>
+                            <td><?php echo $value->bankacc ?></td>
+                            <td><?php echo $value->cash ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-4">
+            <h4>Top 10 Poorest</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Bank</th>
+                        <th>Cash</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach($allPlayersCashPoor as $value){ ?>
                         <tr>
                             <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->playerid ?>"><?php echo filterXSS($value->name) ?></a></td>
                             <td><?php echo $value->bankacc ?></td>

@@ -1,7 +1,7 @@
 <?php
     include("../fillin/scripts.php");
 
-    if(isset($_POST["id"]) && isset($_POST["pass"])){
+    if(isset($_POST["id"]) && !empty($_POST["pass"])){
         if(permissions::user_has_permission("editstaffpass")){
 			$account = accounts::get_by_id($_POST["id"]);
 

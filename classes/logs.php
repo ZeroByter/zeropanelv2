@@ -23,29 +23,22 @@
     		return mysqli_fetch_object($result);
         }
 
-		public function get_all($page){
+        public function get_all($page){
             $search = "";
             if(isset($_GET["search"])){
                 $search = $_GET["search"];
             }
-
 			$conn = get_mysql_conn();
             $result = mysqli_query($conn, "SELECT * FROM logs WHERE `time` LIKE '%$search%' OR title LIKE '%$search%' ORDER BY time DESC LIMIT ". ($page-1) * 30 .", 30");
             mysqli_close($conn);
             $array = array();
-
             while($array[] = mysqli_fetch_object($result));
             return array_filter($array);
 		}
 
         public function get_all_real(){
-            $search = "";
-            if(isset($_GET["search"])){
-                $search = $_GET["search"];
-            }
-
-			$conn = get_mysql_conn();
-            $result = mysqli_query($conn, "SELECT id FROM logs WHERE `time` LIKE '%$search%' OR title LIKE '%$search%'");
+            $conn = get_mysql_conn();
+            $result = mysqli_query($conn, "SELECT id FROM logs");
             mysqli_close($conn);
             $array = array();
 

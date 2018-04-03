@@ -141,7 +141,7 @@
                 $account = self::get_by_username($username);
             }else{
                 mysqli_close($conn);
-                logs::add_log("login", "$1 tried to login with non-existant information: [username:$username], [password:$password]");
+                logs::add_log("login", "$1 tried to login with non-existant information: [username:$username], [password:*****]");
                 return "No account found by that username!";
             }
 
@@ -154,9 +154,6 @@
                     $_SESSION["keepSession"] = $rememberme;
                     $_SESSION["lastChatView"] = 8^9;
                     $_SESSION["lastChatType"] = 8^9;
-                    if($rememberme){
-                        setcookie("zeroforumsv2_" . get_config()["cookie_id"], $_COOKIE["zeroforumsv2_" . get_config()["cookie_id"]], time() + 86400);
-                    }
 					mysqli_query($conn, "UPDATE accounts SET lastactive='" . time() . "' WHERE id='$account->id'");
                     mysqli_close($conn);
                     self::add_user_iplist($account->id);

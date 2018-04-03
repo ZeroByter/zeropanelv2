@@ -11,9 +11,9 @@ var chat = new function(){
     this.fetchMessages = function(){
         $("#chatTitleSpinner").css("display", "inline-block")
         $.get("/phpscripts/fillin/getchatmsgs.php", function(html){
-            if(html){
+            if(html != ""){
                 $("#chatTextOutput").html(html)
-                $("#chatTextOutput").scrollTop($("#chatTextOutput").innerHeight())
+                //$("#chatTextOutput").scrollTop($("#chatTextOutput")[0].scrollHeight)
                 $("#chatTitleSpinner").css("display", "none")
             }
         })

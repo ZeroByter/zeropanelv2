@@ -46,9 +46,15 @@
             return array_filter($array);
 		}
 
-        public function getAllByMoney(){
+        public function getAllByMoney($startByPoorest = false){
+            if($startByPoorest){
+                $startByPoorest = "ASC";
+            }else{
+                $startByPoorest = "DESC";
+            }
+
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM players ORDER BY bankacc DESC LIMIT 10");
+    		$result = mysqli_query($conn, "SELECT * FROM players ORDER BY bankacc $startByPoorest LIMIT 10");
     		mysqli_close($conn);
             while($array[] = mysqli_fetch_object($result));
 

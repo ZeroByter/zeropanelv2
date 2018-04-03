@@ -48,7 +48,7 @@
     		permissions::create("Admin", [], 2);
     		permissions::create("Super Admin", ["*"], 3);
     		accounts::create($_POST["defaultUsername"], $_POST["defaultPassword"], 3, $_POST["defaultPlayerID"]);
-    		accounts::login($_POST["defaultUsername"], $_POST["defaultPassword"], false);
+    		accounts::login($_POST["defaultUsername"], hash("sha256", $_POST["defaultPassword"]), false);
             echo "success";
         }else{
             echo "Connection to MySQL database failed! Are you using the correct details?";

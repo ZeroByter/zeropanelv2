@@ -33,7 +33,7 @@
                                 <div class="input-group form-group">
                                     <span class="input-group-addon">New password</span>
                                     <input type="password" class="form-control" id="newpass">
-									<span class="input-group-btn"><button class="btn btn-primary" id="newpassbtn">Edit New Password</button></span>
+									<span class="input-group-btn"><button type="button" class="btn btn-primary" id="newpassbtn">Edit New Password</button></span>
                                 </div>
 								<?php } ?>
                                 <div class="input-group form-group">

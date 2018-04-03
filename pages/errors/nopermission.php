@@ -1,3 +1,9 @@
+<?php
+	if($furl[0] != "403"){
+		logs::add_log("403 page", "$1 tried to view [page//" . implode("/", $furl) . "] but lacks the permission to do so", 8);
+	}
+?>
+
 <center>
 	<h1>No permission to view this page.</h1>
 	<h3>This could be for a number of reasons, but we aren't exactly sure why.</h3>
