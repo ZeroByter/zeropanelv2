@@ -166,6 +166,7 @@
             $permissions["rconpage"][] = ["kickrconplayers", "Kick players from the server"];
             $permissions["rconpage"][] = ["sayrconglobal", "Send server global message"];
             $permissions["rconpage"][] = ["sayrconprivate", "Say server private message"];
+            $permissions["rconpage"][] = ["restartrconserver", "Restart the server"];
 
 			$permissions["serverspage"] = ["Edit Servers Page"];
 			$permissions["serverspage"][] = ["createservers", "Create/delete servers"];

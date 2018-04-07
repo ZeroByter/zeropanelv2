@@ -29,4 +29,21 @@
 	<br><br>
 	<a href="/<?php echo $linksOffset ?>rcon/<?php echo $server->id ?>/bans"><button class="btn btn-primary"><i class="fa fa-list" aria-hidden="true"></i> Load Bans</button></a>
 	<a href="/<?php echo $linksOffset ?>rcon/<?php echo $server->id ?>/players"><button class="btn btn-primary"><i class="fa fa-users" aria-hidden="true"></i> View Players</button></a>
+	<br><br><br>
+	<?php
+		if(permissions::user_has_permission("restartrconserver")){
+			echo "<h4>RCon Commands:</h4>";
+	?>
+		<button class="btn btn-primary" id="restartServer"><i class="fa fa-redo" aria-hidden="true"></i> Restart Server</button>
+	<?php
+		}
+	?>
 </center>
+
+<script>
+	$("#restartServer").click(function(){
+		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/rcon/restart.php", {serverid: "<?php echo $server->id ?>"}, false, function(html){
+            essentials.message("Server succesfully restarted!", "success")
+        })
+	})
+</script>

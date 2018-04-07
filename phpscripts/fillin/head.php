@@ -5,7 +5,9 @@
 	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/animate.css"></link>
 	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/bootstrap.override.css"></link>
 	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/base.css"></link>
-	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/font-awesome.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/fontawesome.min.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/fontawesome-all.min.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/fa-regular.min.css"></link>
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ruda:400,700,900">
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/jquery.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/bootstrap.js"></script>
