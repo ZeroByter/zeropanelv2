@@ -29,7 +29,7 @@
     	if(file_exists(__DIR__ . "/../config.php")){
     		$settings = get_config();
     		$cookie_id = $settings["cookie_id"];
-    		session_name("zeroforumsv2_$cookie_id");
+    		session_name("zeropanelv2_$cookie_id");
             //session_set_cookie_params(86400);
             session_start();
     	}
@@ -93,7 +93,13 @@
         }else{
             if(file_exists(__DIR__ . "/../config.php")){
                 $settings = get_config();
-                $mysqlConn = mysqli_connect(decrypt_text($settings["mysql"]["ip"], $settings["key"]), decrypt_text($settings["mysql"]["username"], $settings["key"]), decrypt_text($settings["mysql"]["password"], $settings["key"]), decrypt_text($settings["mysql"]["dbname"], $settings["key"]));
+                //$mysqlConn = mysqli_connect(decrypt_text($settings["mysql"]["ip"], $settings["key"]), decrypt_text($settings["mysql"]["username"], $settings["key"]), decrypt_text($settings["mysql"]["password"], $settings["key"]), decrypt_text($settings["mysql"]["dbname"], $settings["key"]));
+                $host = decrypt_text($settings["mysql"]["ip"], $settings["key"]);
+                $user = decrypt_text($settings["mysql"]["username"], $settings["key"]);
+                $pass = decrypt_text($settings["mysql"]["password"], $settings["key"]);
+                $dbname = decrypt_text($settings["mysql"]["dbname"], $settings["key"]);
+
+                $mysqlConn = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
                 return $mysqlConn;
             }else{
                 return false;

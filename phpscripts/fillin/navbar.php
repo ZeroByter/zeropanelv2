@@ -1,6 +1,6 @@
 <div id="navbarDiv">
     <a href="/<?php echo $linksOffset ?>profile"><div id="navbarProfile"><?php echo $currAccount->username ?></div></a>
-    <a href="/<?php echo $linksOffset ?>"><div class="navbarItem"><i class="fa fa-tachometer" aria-hidden="true"></i> Dashboard</div></a>
+    <a href="/<?php echo $linksOffset ?>"><div class="navbarItem"><i class="fa fa-chart-line" aria-hidden="true"></i> Dashboard</div></a>
     <a href="/<?php echo $linksOffset ?>players"><div class="navbarItem"><i class="fa fa-users" aria-hidden="true"></i> Players</div></a>
     <a href="/<?php echo $linksOffset ?>vehicles"><div class="navbarItem"><i class="fa fa-car" aria-hidden="true"></i> Vehicles</div></a>
     <a href="/<?php echo $linksOffset ?>houses"><div class="navbarItem"><i class="fa fa-home" aria-hidden="true"></i> Houses</div></a>
@@ -24,11 +24,11 @@
 				<a href="/<?php echo $linksOffset ?>servers/createserver"><div class="navbarItemAlt">Create Server</div></a>
 			</div>
 		<?php }
-		echo '<a href="/'.$linksOffset.'profile"><div class="navbarItem"><i class="fa fa-user-circle-o" aria-hidden="true"></i> Profile</div></a>';
+		echo '<a href="/'.$linksOffset.'profile"><div class="navbarItem"><i class="fa fa-user" aria-hidden="true"></i> Profile</div></a>';
 		if(permissions::user_has_permission("staffpage")){ ?>
-            <a data-toggle="collapse" href="#staffDropdown"><div class="navbarItem"><i class="fa fa-user" aria-hidden="true"></i> Staff</div></a>
+            <a data-toggle="collapse" href="#staffDropdown"><div class="navbarItem"><i class="fa fa-users" aria-hidden="true"></i> Staff</div></a>
 			<div class="collapse" id="staffDropdown">
-				<a href="/<?php echo $linksOffset ?>staff"><div class="navbarItemAlt"><i class="fa fa-user" aria-hidden="true"></i> Edit Staff</div></a>
+				<a href="/<?php echo $linksOffset ?>staff"><div class="navbarItemAlt"><i class="fas fa-user-edit"></i> Edit Staff</div></a>
 				<a href="/<?php echo $linksOffset ?>staff/addnew"><div class="navbarItemAlt"><i class="fa fa-user-plus" aria-hidden="true"></i> Add New Staff</div></a>
                 <?php
                     if(permissions::user_has_permission("sessionspage")){

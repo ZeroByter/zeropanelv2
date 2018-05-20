@@ -26,8 +26,8 @@
 		$config["permissionsUpdateInterval"] = 8;
 		$config["maxlevels"] = [];
         $config["maxlevels"]["coplevel"] = 7;
-        $config["maxlevels"]["mediclevel"] = 5;
-        $config["maxlevels"]["donatorlvl"] = 1;
+        $config["maxlevels"]["medlevel"] = 5;
+        $config["maxlevels"]["donorlvl"] = 1;
         $config["licenseNames"] = [];
         $config["banCount"] = 0;
         $config["enablePlayersBrowser"] = false;

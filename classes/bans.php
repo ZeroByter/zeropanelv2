@@ -2,7 +2,7 @@
     class bans{
 		public function create_db(){
             $conn = get_mysql_conn();
-            mysqli_query($conn, "CREATE TABLE IF NOT EXISTS bans(
+            $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS bans(
                 id int(10) NOT NULL auto_increment,
                 name varchar(255) NOT NULL,
                 steamid varchar(255) NOT NULL,
@@ -16,7 +16,7 @@
                 staff varchar(255) NOT NULL,
                 banid int(11) NOT NULL,
             PRIMARY KEY(id), UNIQUE id (id))");
-            mysqli_close($conn);
+            $stmt->execute();
         }
 
         public function get_all($page){
@@ -26,44 +26,44 @@
 			}
 
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM bans ORDER BY created DESC");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
+    		$stmt = $conn->prepare("SELECT * FROM bans ORDER BY created DESC");
+            $stmt->execute();
 
-            return array_filter($array);
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function get_by_steamid($id){
             $conn = get_mysql_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_query($conn, "SELECT * FROM bans WHERE steamid='$id' ORDER BY created DESC");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
+            $stmt = $conn->prepare("SELECT * FROM bans WHERE steamid=? ORDER BY created DESC");
+            $stmt->execute(array($id));
 
-            return array_filter($array);
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function get_all_active($id = ""){
             $conn = get_mysql_conn();
-            $id = mysqli_real_escape_string($conn, $id);
             if($id == ""){
-                $result = mysqli_query($conn, "SELECT * FROM bans WHERE active = 1 AND (UNIX_TIMESTAMP(created) - UNIX_TIMESTAMP(NOW()) + length * 60 > 0 OR length = '0') ORDER BY created DESC");
+                $stmt = $conn->prepare("SELECT * FROM bans WHERE active = 1 AND (UNIX_TIMESTAMP(created) - UNIX_TIMESTAMP(NOW()) + length * 60 > 0 OR length = '0') ORDER BY created DESC");
+                $stmt->execute();
             }else{
-                $result = mysqli_query($conn, "SELECT * FROM bans WHERE steamid='$id' AND active = 1 AND (UNIX_TIMESTAMP(created) - UNIX_TIMESTAMP(NOW()) + length * 60 > 0 OR length = '0') ORDER BY created DESC");
+                $stmt = $conn->prepare("SELECT * FROM bans WHERE steamid=? AND active = 1 AND (UNIX_TIMESTAMP(created) - UNIX_TIMESTAMP(NOW()) + length * 60 > 0 OR length = '0') ORDER BY created DESC");
+                $stmt->execute(array($id));
             }
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
 
-            return array_filter($array);
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function get_by_banid($id){
             $conn = get_mysql_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_fetch_object(mysqli_query($conn, "SELECT * FROM bans WHERE banid='$id'"));
-            mysqli_close($conn);
 
-			var_dump($result);
+            $stmt = $conn->prepare("SELECT * FROM bans WHERE banid=?");
+            $stmt->execute(array($id));
+
+            $result = $stmt->fetch(PDO::FETCH_OBJ);
+
             if(strtotime(@$result->created) - time() + @$result->length * 60 > 0 || @$result->length == 0){}else{
                 self::inactive($id);
             }
@@ -73,15 +73,12 @@
 
         public function getBanCount(){
             return get_config()["banCount"];
-            //return intval(file_get_contents($_SERVER['DOCUMENT_ROOT'] . "/bancount.txt"));
         }
 
         public function AddBanCount(){
             $config = get_config();
             $config["banCount"] = $config["banCount"] + 1;
             write_config($config);
-            //$number = self::getBanCount();
-        	//file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/bancount.txt", $number + 1);
         }
 
         public function create($steamID, $guid, $length, $reason, $notes=""){
@@ -89,27 +86,20 @@
             $player = players::get_by_steamid($steamID);
 
             $conn = get_mysql_conn();
-            $steamID = mysqli_real_escape_string($conn, $steamID);
-            $guid = mysqli_real_escape_string($conn, $guid);
-            $length = mysqli_real_escape_string($conn, $length);
-            $reason = mysqli_real_escape_string($conn, $reason);
-            $notes = mysqli_real_escape_string($conn, $notes);
-            $result = mysqli_query($conn, "INSERT INTO bans(banid, name, steamid, guid, length, reason, notes, staff, active) VALUES ('".self::getBanCount()."', '$player->name', '$steamID', '$guid', '$length', '$reason', '$notes', '$currAccount->id', '1')");
-            mysqli_close($conn);
+            $stmt = $conn->prepare("INSERT INTO bans(banid, name, steamid, guid, length, reason, notes, staff, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute(array($self::getBanCount(), $player->name, $steamID, $guid, $length, $reason, $notes, $currAccount->id, 1));
         }
 
         public function active($banid){
             $conn = get_mysql_conn();
-            $banid = mysqli_real_escape_string($conn, $banid);
-    		mysqli_query($conn, "UPDATE bans SET active='1' WHERE banid='$banid'");
-            mysqli_close($conn);
+            $stmt = $conn->prepare("UPDATE bans SET active='1' WHERE banid=?");
+            $stmt->execute(array($banid));
         }
 
         public function inactive($banid){
             $conn = get_mysql_conn();
-            $banid = mysqli_real_escape_string($conn, $banid);
-    		mysqli_query($conn, "UPDATE bans SET active='0' WHERE banid='$banid'");
-            mysqli_close($conn);
+            $stmt = $conn->prepare("UPDATE bans SET active='0' WHERE banid=?");
+            $stmt->execute(array($banid));
         }
     }
 ?>

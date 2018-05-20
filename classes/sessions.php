@@ -2,7 +2,8 @@
     class sessions{
         public function create_db(){
             $conn = get_mysql_conn();
-            mysqli_query($conn, "CREATE TABLE IF NOT EXISTS sessions(
+
+            $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS sessions(
                 id int(8) NOT NULL auto_increment,
                 ip varchar(32) NOT NULL,
                 sessionid varchar(64) NOT NULL,
@@ -13,7 +14,7 @@
                 browserVersion varchar(64) NOT NULL,
                 platform varchar(64) NOT NULL,
             PRIMARY KEY(id), UNIQUE id (id))");
-            mysqli_close($conn);
+            $stmt->execute();
         }
 
         private function generate_salt(){
@@ -22,38 +23,33 @@
 
 		public function get_all(){
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM sessions");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
-
-            return array_filter($array);
+            $stmt = $conn->prepare("SELECT * FROM sessions");
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function get_all_display($page){
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM sessions LIMIT ". ($page-1) * 30 .", 30");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
-
-            return array_filter($array);
+            $stmt = $conn->prepare("SELECT * FROM sessions LIMIT ". ($page-1) * 30 .", 30");
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function get_by_id($id){
             $conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_query($conn, "SELECT * FROM sessions WHERE id='$id'");
-    		mysqli_close($conn);
-
-    		return mysqli_fetch_object($result);
+    		$stmt = $conn->prepare("SELECT * FROM sessions WHERE id=?");
+            $stmt->execute(array($id));
+            return $stmt->fetch(PDO::FETCH_OBJ);
         }
 
         public function get_session($sessionid){
             $conn = get_mysql_conn();
-    		//$sessionid = mysqli_real_escape_string($conn, hash("sha256", $sessionid));
-    		$sessionid = mysqli_real_escape_string($conn, $sessionid);
-            $result = mysqli_query($conn, "SELECT * FROM sessions WHERE sessionid='$sessionid'");
-    		mysqli_close($conn);
-            $result = mysqli_fetch_object($result);
+
+            $stmt = $conn->prepare("SELECT * FROM sessions WHERE sessionid=?");
+            $stmt->execute(array($sessionid));
+            $result = $stmt->fetch(PDO::FETCH_OBJ);
 
             if($result->ip != $_SERVER["REMOTE_ADDR"]){
                 return false;
@@ -66,39 +62,35 @@
             $conn = get_mysql_conn();
             $ip = $_SERVER["REMOTE_ADDR"];
             $sessionid = hash("sha256", self::generate_salt());
-            $accountid = mysqli_real_escape_string($conn, $accountid);
 
             $browserClass = new Browser();
             $browser = $browserClass->getBrowser();
             $browserVersion = $browserClass->getVersion();
             $platform = $browserClass->getPlatform();
 
-            mysqli_query($conn, "INSERT INTO sessions(ip, sessionid, accountid, browser, browserVersion, platform) VALUES ('$ip', '$sessionid', '$accountid', '$browser', '$browserVersion', '$platform')");
-            $createdID = mysqli_insert_id($conn);
-            mysqli_close($conn);
+            $stmt = $conn->prepare("INSERT INTO sessions(ip, sessionid, accountid, browser, browserVersion, platform) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute(array($ip, $sessionid, $accountid, $browser, $browserVersion, $platform));
+            $createdID = $conn->lastInsertId();
             return $createdID;
         }
 
         public function delete_session_by_id($id){
             $conn = get_mysql_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-            mysqli_query($conn, "DELETE FROM sessions WHERE id='$id'");
-            mysqli_close($conn);
+            $stmt = $conn->prepare("DELETE FROM sessions WHERE id=?");
+            $stmt->execute(array($id));
         }
 
         public function delete_session($sessionid){
             $conn = get_mysql_conn();
-            $sessionid = mysqli_real_escape_string($conn, $sessionid);
-            mysqli_query($conn, "DELETE FROM sessions WHERE sessionid='$sessionid'");
-            mysqli_close($conn);
+            $stmt = $conn->prepare("DELETE FROM sessions WHERE sessionid=?");
+            $stmt->execute(array($sessionid));
         }
 
         public function update_lastused($sessionid){
             $conn = get_mysql_conn();
-            $sessionid = mysqli_real_escape_string($conn, $sessionid);
             $time = time();
-            mysqli_query($conn, "UPDATE sessions SET lastused='$time' WHERE sessionid='$sessionid'");
-            mysqli_close($conn);
+            $stmt = $conn->prepare("UPDATE sessions SET lastused=? WHERE sessionid=?");
+            $stmt->execute(array($time, $sessionid));
         }
     }
 ?>

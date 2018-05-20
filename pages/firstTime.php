@@ -54,7 +54,7 @@
                 </div>
                 <div class="input-group form-group">
                     <span class="input-group-addon">MySQL Password</span>
-                    <input type="password" class="form-control" placeholder="MySQL Password" id="sqlPassword" required>
+                    <input type="password" class="form-control" placeholder="MySQL Password" id="sqlPassword">
                 </div>
                 <div class="input-group form-group">
                     <span class="input-group-addon">MySQL Database Name</span>

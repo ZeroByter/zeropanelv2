@@ -1,23 +1,21 @@
 <?php
     class permissions{
         public function create_db(){
-            $conn = get_mysql_conn();
-            mysqli_query($conn, "CREATE TABLE IF NOT EXISTS permissions(
+            $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS permissions(
                 id int(11) NOT NULL auto_increment,
                 name varchar(64) NOT NULL,
                 accesslevel int(11) NOT NULL,
                 permissions text NOT NULL,
             PRIMARY KEY(id), UNIQUE id (id))");
-            mysqli_close($conn);
+            $stmt->execute();
         }
 
         public function get_all(){
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM permissions ORDER BY accesslevel DESC");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
-
-            return array_filter($array);
+    		$stmt = $conn->prepare("SELECT * FROM permissions ORDER BY accesslevel DESC");
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function get_all_limited(){
@@ -28,30 +26,27 @@
 			$currentAccessLevel = accounts::get_current_account()->accesslevel;
 
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM permissions WHERE accesslevel <= '$currentAccessLevel' ORDER BY accesslevel DESC");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
-
-            return array_filter($array);
+    		$stmt = $conn->prepare("SELECT * FROM permissions WHERE accesslevel <= ? ORDER BY accesslevel DESC");
+            $stmt->execute(array($currentAccessLevel));
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
 		public function get_by_id($id){
 			$conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_query($conn, "SELECT * FROM permissions WHERE id='$id'");
-    		mysqli_close($conn);
+    		$stmt = $conn->prepare("SELECT * FROM permissions WHERE id=?");
+            $stmt->execute(array($id));
 
-    		return mysqli_fetch_object($result);
+            return $stmt->fetch(PDO::FETCH_OBJ);
 		}
 
 		public function get_by_accesslevel($id){
 			$conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-            $accesslevel = mysqli_fetch_object(mysqli_query($conn, "SELECT accesslevel FROM permissions WHERE id='$id'"))->accesslevel;
-    		$result = mysqli_query($conn, "SELECT * FROM permissions WHERE accesslevel='$accesslevel'");
-    		mysqli_close($conn);
+            $accesslevel = self::get_by_id($id)->accesslevel;
+            $stmt = $conn->prepare("SELECT * FROM permissions WHERE accesslevel=?");
+            $stmt->execute(array($accesslevel));
 
-    		return mysqli_fetch_object($result);
+    		return $stmt->fetch(PDO::FETCH_OBJ);
 		}
 
 		public function create($name, $permissions, $accesslevel){
@@ -60,11 +55,9 @@
 			}
 
 			$conn = get_mysql_conn();
-            $name = mysqli_real_escape_string($conn, $name);
-            $accesslevel = mysqli_real_escape_string($conn, $accesslevel);
-            mysqli_query($conn, "INSERT INTO permissions(name, accesslevel, permissions) VALUES ('$name', '$accesslevel', '$permissions')");
-            $createdID = mysqli_insert_id($conn);
-            mysqli_close($conn);
+            $stmt = $conn->prepare("INSERT INTO permissions(name, accesslevel, permissions) VALUES ('$name', '$accesslevel', '$permissions')");
+            $stmt->execute(array($name, $accesslevel, $permissions));
+            $createdID = $conn->lastInsertId();
             return $createdID;
 		}
 
@@ -73,24 +66,22 @@
     		$id = mysqli_real_escape_string($conn, $id);
             $firstPermission = end(self::get_all());
             $accesslevel = self::get_by_id($id)->accesslevel;
-    		mysqli_query($conn, "DELETE FROM permissions WHERE id='$id'");
-    		mysqli_query($conn, "UPDATE accounts SET accesslevel='$firstPermission->accesslevel' WHERE accesslevel='$accesslevel'");
-    		mysqli_close($conn);
+            $stmt = $conn->prepare("DELETE FROM permissions WHERE id=?");
+            $stmt->execute(array($id));
+            $stmt = $conn->prepare("UPDATE accounts SET accesslevel=? WHERE accesslevel=?");
+            $stmt->execute(array($firstPermission->accesslevel, $accesslevel));
         }
 
         public function edit($id, $permissions){
             $conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		mysqli_query($conn, "UPDATE permissions SET permissions='$permissions' WHERE id='$id'");
-    		mysqli_close($conn);
+            $stmt = $conn->prepare("UPDATE permissions SET permissions=? WHERE id=?");
+            $stmt->execute(array($permissions, $id));
         }
 
 		public function renamePermission($id, $newName){
             $conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		$newName = mysqli_real_escape_string($conn, $newName);
-    		mysqli_query($conn, "UPDATE permissions SET name='$newName' WHERE id='$id'");
-    		mysqli_close($conn);
+            $stmt = $conn->prepare("UPDATE permissions SET name=? WHERE id=?");
+            $stmt->execute(array($newName, $id));
         }
 
 		public function user_has_permission($permission){

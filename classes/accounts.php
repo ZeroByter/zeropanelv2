@@ -1,7 +1,7 @@
 <?php
     class accounts{
         public function create_db(){
-            $conn = get_mysql_conn();
+            /*$conn = get_mysql_conn();
             mysqli_query($conn, "CREATE TABLE IF NOT EXISTS accounts(
                 id int(11) NOT NULL auto_increment,
                 username varchar(64) NOT NULL,
@@ -13,7 +13,21 @@
                 iplist text NOT NULL,
                 banned boolean NOT NULL,
             PRIMARY KEY(id), UNIQUE id (id))");
-            mysqli_close($conn);
+            mysqli_close($conn);*/
+
+            $conn = get_mysql_conn();
+            $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS accounts(
+                id int(11) NOT NULL auto_increment,
+                username varchar(64) NOT NULL,
+                password varchar(64) NOT NULL,
+                salt varchar(64) NOT NULL,
+                playerid varchar(20) NOT NULL,
+                accesslevel int(11) NOT NULL,
+                created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                iplist text NOT NULL,
+                banned boolean NOT NULL,
+            PRIMARY KEY(id), UNIQUE id (id))");
+            $stmt->execute();
         }
 
         private function generate_salt(){
@@ -27,18 +41,18 @@
 			}
 
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE id LIKE '$search' OR username LIKE '%$search%' OR playerid LIKE '$search' LIMIT ". ($page-1) * 30 .", 30");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
-			$array = array_filter($array);
 
-			function sorting($a, $b){
+            $stmt = $conn->prepare("SELECT * FROM accounts WHERE id LIKE ? OR username LIKE ? OR playerid LIKE ? LIMIT ". ($page-1) * 30 .", 30");
+            $stmt->execute(array($search, "%$search%", $search));
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+
+            function sorting($a, $b){
 				return strcmp(permissions::get_by_id($b->accesslevel)->accesslevel, permissions::get_by_id($a->accesslevel)->accesslevel);
 			}
 
-			usort($array, "sorting");
+			usort($result, "sorting");
 
-            return $array;
+            return $result;
         }
 
         public function get_all_real(){
@@ -48,36 +62,34 @@
 			}
 
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE id LIKE '$search' OR username LIKE '%$search%' OR playerid LIKE '$search'");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
+
+            $stmt = $conn->prepare("SELECT * FROM accounts WHERE id LIKE ? OR username LIKE ? OR playerid LIKE ?");
+            $stmt->execute(array($search, "%$search%", $search));
+
+    		$result = $stmt->fetchAll(PDO::FETCH_OBJ);
 
 			function sorting($a, $b){
 				return strcmp(permissions::get_by_id($b->accesslevel)->accesslevel, permissions::get_by_id($a->accesslevel)->accesslevel);
 			}
 
-			usort($array, "sorting");
+			usort($result, "sorting");
 
-            return $array;
+            return $result;
         }
 
         public function get_all_by_accesslevel($accesslevel){
             $conn = get_mysql_conn();
-			$accesslevel = mysqli_real_escape_string($conn, $accesslevel);
-    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE accesslevel='$accesslevel'");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
-
-            return array_filter($array);
+    		$stmt = $conn->prepare("SELECT * FROM accounts WHERE accesslevel=?");
+            $stmt->execute(array($accesslevel));
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function get_by_id($id){
             $conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_query($conn, "SELECT * FROM accounts WHERE id='$id'");
-    		mysqli_close($conn);
-
-    		return mysqli_fetch_object($result);
+    		$stmt = $conn->prepare("SELECT * FROM accounts WHERE id=?");
+            $stmt->execute(array($id));
+            return $stmt->fetch(PDO::FETCH_OBJ);
         }
 
         public function get_by_sessionid($sessionid){
@@ -86,30 +98,24 @@
 
         public function get_by_username($username, $caseSensitive=true){
             $conn = get_mysql_conn();
-    		$username = mysqli_real_escape_string($conn, $username);
             if($caseSensitive){
-                $result = mysqli_query($conn, "SELECT * FROM accounts WHERE username='$username'");
+                $stmt = $conn->prepare("SELECT * FROM accounts WHERE username=?");
             }else{
                 $username = strtolower($username);
-                $result = mysqli_query($conn, "SELECT * FROM accounts WHERE LOWER(username)='$username'");
+                $stmt = $conn->prepare("SELECT * FROM accounts WHERE LOWER(username)=?");
             }
-    		mysqli_close($conn);
-
-    		return mysqli_fetch_object($result);
+            $stmt->execute(array($username));
+            return $stmt->fetch(PDO::FETCH_OBJ);
         }
 
         public function create($username, $password, $accesslevel, $playerid){
             $conn = get_mysql_conn();
             $salt = self::generate_salt();
-            $username = mysqli_real_escape_string($conn, $username);
-            $password = mysqli_real_escape_string($conn, $password);
             $password = hash("sha256", "$password");
             $password = hash("sha256", "$password:$salt");
-            $accesslevel = mysqli_real_escape_string($conn, $accesslevel);
-            $playerid = mysqli_real_escape_string($conn, $playerid);
-            mysqli_query($conn, "INSERT INTO accounts(username, password, salt, accesslevel, playerid, created, iplist, banned) VALUES ('$username', '$password', '$salt', '$accesslevel', '$playerid', CURRENT_TIMESTAMP, '[]', false)");
-            $createdID = mysqli_insert_id($conn);
-            mysqli_close($conn);
+            $stmt = $conn->prepare("INSERT INTO accounts(username, password, salt, accesslevel, playerid, iplist, banned) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute(array($username, $password, $salt, $accesslevel, $playerid, "[]", "false"));
+            $createdID = $conn->lastInsertId();
             return $createdID;
         }
 
@@ -133,14 +139,11 @@
 
         public function login($username, $password, $rememberme){
             $conn = get_mysql_conn();
-            $username = mysqli_real_escape_string($conn, $username);
-            $password = mysqli_real_escape_string($conn, $password);
 
             $account = null;
-            if(self::get_by_username($username)){
+            if(isset(self::get_by_username($username)->id)){
                 $account = self::get_by_username($username);
             }else{
-                mysqli_close($conn);
                 logs::add_log("login", "$1 tried to login with non-existant information: [username:$username], [password:*****]");
                 return "No account found by that username!";
             }
@@ -154,20 +157,19 @@
                     $_SESSION["keepSession"] = $rememberme;
                     $_SESSION["lastChatView"] = 8^9;
                     $_SESSION["lastChatType"] = 8^9;
-					mysqli_query($conn, "UPDATE accounts SET lastactive='" . time() . "' WHERE id='$account->id'");
-                    mysqli_close($conn);
+
+                    $stmt = $conn->prepare("UPDATE accounts SET lastactive=? WHERE id=?");
+                    $stmt->execute(array(time(), $account->id));
                     self::add_user_iplist($account->id);
                     logs::add_log("login", "$1 logged in");
                     return "success";
                 }else{
                     //wrong password
-                    mysqli_close($conn);
                     logs::add_log("login", "$1 tried to login to [username:$username] with the wrong [password:*****]", 1, $account->id);
                     return "Wrong password!";
                 }
             }else{
                 //no account exists?!
-                mysqli_close($conn);
                 logs::add_log("login", "$1 tried to login with non-existant information: [username:$username], [password:*****]");
                 return "No account exists by that username/password!";
             }
@@ -175,10 +177,9 @@
 
         public function get_iplist($id){
     		$conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_query($conn, "SELECT iplist FROM accounts WHERE id='$id'");
-    		mysqli_close($conn);
-    		$iplistArray = json_decode(mysqli_fetch_object($result)->iplist);
+            $stmt = $conn->prepare("SELECT iplist FROM accounts WHERE id=?");
+            $stmt->execute(array($id));
+    		$iplistArray = json_decode($stmt->fetch(PDO::FETCH_OBJ)->iplist);
 
     		if(gettype($iplistArray) == "NULL"){
     			return array();
@@ -215,9 +216,8 @@
     		$iplistArray = json_encode($iplistArray);
 
     		$conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		mysqli_query($conn, "UPDATE accounts SET iplist='$iplistArray' WHERE id='$id'");
-    		mysqli_close($conn);
+            $stmt = $conn->prepare("UPDATE accounts SET iplist=? WHERE id=?");
+            $stmt->execute(array($iplistArray, $id));
     	}
 
         public function does_list_contain_ip($list, $ip){
@@ -253,33 +253,26 @@
 			$currAccount = self::get_current_account();
 
 			$conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		$accesslevel = mysqli_real_escape_string($conn, $accesslevel);
-    		mysqli_query($conn, "UPDATE accounts SET accesslevel='$accesslevel' WHERE id='$id'");
-    		mysqli_close($conn);
+    		$stmt = $conn->prepare("UPDATE accounts SET accesslevel=? WHERE id=?");
+            $stmt->execute(array($accesslevel, $id));
 		}
 
         public function toggleBan($id){
             $conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		mysqli_query($conn, "UPDATE accounts SET banned=!banned WHERE id='$id'");
-    		mysqli_close($conn);
+    		$stmt = $conn->prepare("UPDATE accounts SET banned=!banned WHERE id=?");
+    		$stmt->execute(array($id));
         }
 
         public function changePlayerID($id, $playerid){
             $conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		$playerid = mysqli_real_escape_string($conn, $playerid);
-    		mysqli_query($conn, "UPDATE accounts SET playerid='$playerid' WHERE id='$id'");
-    		mysqli_close($conn);
+            $stmt = $conn->prepare("UPDATE accounts SET playerid=? WHERE id=?");
+    		$stmt->execute(array($playerid, $id));
         }
 
         public function changeUsername($id, $username){
 			$conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		$username = mysqli_real_escape_string($conn, $username);
-    		mysqli_query($conn, "UPDATE accounts SET username='$username' WHERE id='$id'");
-    		mysqli_close($conn);
+            $stmt = $conn->prepare("UPDATE accounts SET username=? WHERE id=?");
+            $stmt->execute(array($username, $id));
 		}
 
         public function changePassword($id, $password){
@@ -287,9 +280,8 @@
 
 			$password = hash("sha256", "$password:$currAccount->salt");
             $conn = get_mysql_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-    		mysqli_query($conn, "UPDATE accounts SET password='$password' WHERE id='$id'");
-    		mysqli_close($conn);
+            $stmt = $conn->prepare("UPDATE accounts SET password=? WHERE id=?");
+    		$stmt->execute(array($password, $id));
 		}
     }
 ?>

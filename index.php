@@ -13,7 +13,7 @@
 			$max = ceil(32 / 40);
 			$random = '';
 			for ($i = 0; $i < $max; $i++) {
-				$random .= sha1(microtime(true) . mt_rand(10000, 90000));
+				$random .= sha1(microtime(true) . mt_rand(10000, 99999));
 			}
 			return substr($random, 0, $length);
 		}
@@ -35,7 +35,9 @@
 	}
 	// End code to check MySQL connection error fixing code!
 
-	//Main performance cause when loading pages is due to lots of user_has_permission functions. Adding onto the slower times is because user_has_permission checks if users are banned (which requires a MySQL query which takes EVEN longer).
+	function test22(){
+		return "nice meme";
+	}
 
 	//Begin main page routing
 	if(isset($_GET["page"])){
@@ -71,6 +73,7 @@
 		$furl = $url["path"];
 
 		$page = "pages/errors/notfound.php"; //if we didn't assign a page dir by the end of the code, display 404
+
 		if(accounts::is_logged_in()){
 			$currAccount = accounts::get_current_account();
 			if($currAccount->banned){
@@ -409,6 +412,6 @@
 	}
 
 	if(gettype($conn) == "object"){
-		mysqli_close($conn);
+		$conn = null;
 	}
  ?>

@@ -2,7 +2,7 @@
     class playernotes{
 		public function create_db(){
             $conn = get_mysql_conn();
-            mysqli_query($conn, "CREATE TABLE IF NOT EXISTS player_notes(
+            $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS player_notes(
                 id int(10) NOT NULL auto_increment,
                 admin varchar(50) NOT NULL,
                 adminuid int(11) NOT NULL,
@@ -13,17 +13,15 @@
                 punish varchar(50) NOT NULL,
                 time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY(id), UNIQUE id (id))");
-            mysqli_close($conn);
+            $stmt->execute();
         }
-		
+
         public function get_all($id){
             $conn = get_mysql_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_query($conn, "SELECT * FROM player_notes WHERE id='$id' ORDER BY time DESC");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
-
-            return array_filter($array);
+            $stmt = $conn->prepare("SELECT * FROM player_notes WHERE id=? ORDER BY time DESC");
+            $stmt->execute(array($id));
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function create($playerid, $note){
@@ -31,10 +29,8 @@
             $player = players::get_by_id($playerid);
 
             $conn = get_mysql_conn();
-            $playerid = mysqli_real_escape_string($conn, $playerid);
-            $note = mysqli_real_escape_string($conn, $note);
-            $result = mysqli_query($conn, "INSERT INTO player_notes(admin, adminuid, player, playeruid, notes) VALUES ('$currAccount->username', '$currAccount->id', '$player->name', '$player->uid', '$note')");
-            mysqli_close($conn);
+            $stmt = $conn->prepare("INSERT INTO player_notes(admin, adminuid, player, playeruid, notes) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute(array($currAccount->username, $currAccount->id, $player->name, $player->uid, $note));
         }
     }
 ?>
