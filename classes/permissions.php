@@ -1,6 +1,7 @@
 <?php
     class permissions{
         public function create_db(){
+            $conn = get_mysql_conn();
             $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS permissions(
                 id int(11) NOT NULL auto_increment,
                 name varchar(64) NOT NULL,

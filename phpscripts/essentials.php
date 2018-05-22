@@ -14,7 +14,9 @@
     }
 
     function get_config(){
-        return include(__DIR__ . "/../config.php");
+        if(file_exists(__DIR__ . "/../config.php")){
+            return include(__DIR__ . "/../config.php");
+        }
     }
     function write_config($config){
         file_put_contents(__DIR__ . "/../config.php", "<?php return " . var_export($config, true) . ";");
