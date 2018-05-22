@@ -1,4 +1,10 @@
 <?php
+    class essentials{
+        public static function getAlias($name){
+            return get_config()["aliases"][$name];
+        }
+    }
+
     function encrypt_text($text, $salt){
         return trim(base64_encode(@openssl_encrypt($text, "aes-256-ofb", $salt)));
     }
@@ -95,12 +101,21 @@
                 $settings = get_config();
                 //$mysqlConn = mysqli_connect(decrypt_text($settings["mysql"]["ip"], $settings["key"]), decrypt_text($settings["mysql"]["username"], $settings["key"]), decrypt_text($settings["mysql"]["password"], $settings["key"]), decrypt_text($settings["mysql"]["dbname"], $settings["key"]));
                 $host = decrypt_text($settings["mysql"]["ip"], $settings["key"]);
+                if(isset($settings["mysql"]["port"])){
+                    $port = decrypt_text($settings["mysql"]["port"], $settings["key"]);
+                }else{
+                    $port = "3306";
+                }
                 $user = decrypt_text($settings["mysql"]["username"], $settings["key"]);
                 $pass = decrypt_text($settings["mysql"]["password"], $settings["key"]);
                 $dbname = decrypt_text($settings["mysql"]["dbname"], $settings["key"]);
 
-                $mysqlConn = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
-                return $mysqlConn;
+                try{
+                    $mysqlConn = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $user, $pass);
+                    return $mysqlConn;
+                }catch( PDOException $Exception ) {
+                    //throw new MyDatabaseException( $Exception->getMessage( ) , $Exception->getCode( ) );
+                }
             }else{
                 return false;
             }

@@ -1,8 +1,5 @@
 <?php
     class players{
-
-        
-
         public function get_all($page){
 			$search = "";
 			if(isset($_GET["search"])){
@@ -10,7 +7,7 @@
 			}
 
             $conn = get_mysql_conn();
-    		$stmt = $conn->prepare("SELECT * FROM players WHERE uid LIKE ? OR name LIKE ? OR aliases LIKE ? OR playerid LIKE ? LIMIT ". ($page-1) * 30 .", 30");
+    		$stmt = $conn->prepare("SELECT * FROM players WHERE uid LIKE ? OR name LIKE ? OR aliases LIKE ? OR ".essentials::getAlias("playerID")." LIKE ? LIMIT ". ($page-1) * 30 .", 30");
             $stmt->execute(array($search, "%$search%", "%$search%", $search));
 
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -24,7 +21,7 @@
 			}
 
             $conn = get_mysql_conn();
-    		$stmt = $conn->prepare("SELECT * FROM players WHERE uid LIKE '$search' OR name LIKE '%$search%' OR aliases LIKE '%$search%' OR playerid LIKE '$search' ORDER BY timejoined DESC");
+    		$stmt = $conn->prepare("SELECT * FROM players WHERE uid LIKE '$search' OR name LIKE '%$search%' OR aliases LIKE '%$search%' OR ".essentials::getAlias("playerID")." LIKE '$search' ORDER BY timejoined DESC");
             $stmt->execute(array($search, "%$search%", "%$search%", $search));
 
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -42,7 +39,7 @@
 
 		public function get_all_playersbrowser($nameSearch){
 			$conn = get_mysql_conn();
-    		$stmt = $conn->prepare("SELECT playerid,name,playerid,aliases,bankacc,timejoined,timeupdated FROM players WHERE name LIKE '%$nameSearch%' OR playerid LIKE '$nameSearch'");
+    		$stmt = $conn->prepare("SELECT ".essentials::getAlias("playerID").",name,aliases,bankacc,timejoined,timeupdated FROM players WHERE name LIKE '%$nameSearch%' OR ".essentials::getAlias("playerID")." LIKE '$nameSearch'");
             $stmt->execute(array("%$nameSearch%", $nameSearch));
 
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -90,8 +87,10 @@
 		}
 
 		public function get_by_steamid($steamid){
+            $playerIDAlias = essentials::getAlias("playerID");
+
 			$conn = get_mysql_conn();
-            $stmt = $conn->prepare("SELECT * FROM players WHERE playerid=?");
+            $stmt = $conn->prepare("SELECT * FROM players WHERE $playerIDAlias=?");
             $stmt->execute(array($steamid));
 
             return $stmt->fetch(PDO::FETCH_OBJ);

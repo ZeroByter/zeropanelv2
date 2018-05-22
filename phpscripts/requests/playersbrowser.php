@@ -4,6 +4,7 @@
     if(!empty($_GET["name"])){
 		$_GET["name"] = preg_replace("/\s+/", " ", $_GET["name"]);
 		$returnArray = players::get_all_playersbrowser($_GET["name"]);
+        $playerIDAlias = essentials::getAlias("playerID");
 
 		if($_GET["name"] == " "){
 			$returnArray = [];
@@ -21,14 +22,14 @@
             $value->name = filterXSS($value->name);
 
 			//count all houses
-			$value->houses = count(houses::get_by_owner($value->playerid));
+			$value->houses = count(houses::get_by_owner($value->$playerIDAlias));
 
 			//get all vehicles that are on civ side and are alive
 			$policeCarsArray = [];
 			$civCarsArray = [];
 			$EMSCarsArray = [];
 
-			foreach(vehicles::get_by_owner($value->playerid) as $value1){
+			foreach(vehicles::get_by_owner($value->$playerIDAlias) as $value1){
 				if($value1->alive == 1){
 					if($value1->side == "cop"){
 						$policeCarsArray[] = $value1->classname;

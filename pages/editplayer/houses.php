@@ -33,14 +33,14 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach(houses::get_by_owner($player->playerid, 10) as $value){ ?>
+						<?php foreach(houses::get_by_owner($player->$playerIDAlias, 10) as $value){ ?>
 							<tr class="itemRow" data-id="<?php echo $value->id ?>">
 								<td>House</td>
 							</tr>
 						<?php } ?>
 					</tbody>
 				</table>
-				<h4 style="float:right;"><a href="/<?php echo $linksOffset ?>houses?search=<?php echo $player->playerid ?>">See all...</a></h4>
+				<h4 style="float:right;"><a href="/<?php echo $linksOffset ?>houses?search=<?php echo $player->$playerIDAlias ?>">See all...</a></h4>
             </div>
         </div>
     </div>

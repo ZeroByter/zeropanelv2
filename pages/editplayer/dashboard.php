@@ -23,7 +23,7 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading">Steam ID</div>
 						<div class="panel-body">
-							<h4><?php echo filterXSS($player->playerid) ?></h4>
+							<h4><?php echo filterXSS($player->$playerIDAlias) ?></h4>
 						</div>
 					</div>
 				</div>
@@ -75,7 +75,7 @@
 					<div class="panel panel-info">
 						<div class="panel-heading">Vehicles</div>
 						<div class="panel-body">
-							<h4><?php echo count(vehicles::get_by_owner($player->playerid)) ?></h4>
+							<h4><?php echo count(vehicles::get_by_owner($player->$playerIDAlias)) ?></h4>
 						</div>
 					</div>
 				</div>
@@ -101,7 +101,7 @@
 					<div class="panel panel-success">
 						<div class="panel-heading">Houses</div>
 						<div class="panel-body">
-							<h4><?php echo count(houses::get_by_owner($player->playerid)) ?></h4>
+							<h4><?php echo count(houses::get_by_owner($player->$playerIDAlias)) ?></h4>
 						</div>
 					</div>
 				</div>
@@ -129,7 +129,7 @@
 
 <script>
 	$(".guid").each(function(){
-		$(this).html(essentials.steamIDToGUID("<?php echo $player->playerid ?>"))
+		$(this).html(essentials.steamIDToGUID("<?php echo $player->$playerIDAlias ?>"))
 	})
 
 	$("#releasejail").click(function(){

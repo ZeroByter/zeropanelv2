@@ -21,7 +21,7 @@
 <br><br><br><br><br><br>
 <div>
 	<div class="custom-panel">
-		<h4 style="float:left;margin-left:20px;"><i class="fa fa-car" aria-hidden="true"></i> Vehicles</h4> <?php include("phpscripts/fillin/search.php") ?>
+		<h4 style="float:left;margin-left:20px;"><i class="fa fa-home" aria-hidden="true"></i> Houses</h4> <?php include("phpscripts/fillin/search.php") ?>
 		<br><br>
 		<hr class="hidden-xs">
 		<table class="table">

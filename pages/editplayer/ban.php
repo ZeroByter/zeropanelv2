@@ -104,8 +104,8 @@
 			return false
 		}
 
-		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/rcon/ban.php", {serverid: serverid, playerid: playerID, guid: essentials.steamIDToGUID("<?php echo $player->playerid ?>"), reason: $("#banReason").val(), notes: $("#banNotes").val(), time: getTime()}, false, function(){
-			window.location = "/players/" + <?php echo $player->playerid ?>
+		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/rcon/ban.php", {serverid: serverid, playerid: playerID, guid: essentials.steamIDToGUID("<?php echo $player->$playerIDAlias ?>"), reason: $("#banReason").val(), notes: $("#banNotes").val(), time: getTime()}, false, function(){
+			window.location = "/players/" + <?php echo $player->$playerIDAlias ?>
 		})
 		return false
 	})

@@ -45,8 +45,9 @@
                 <span id="playerIDSteam"></span>
                 <h4>SQL Setup</h4>
                 <div class="input-group form-group">
-                    <span class="input-group-addon">MySQL Host IP</span>
+                    <span class="input-group-addon">MySQL Host</span>
                     <input type="text" class="form-control" placeholder="MySQL Host IP" id="sqlHost" required>
+                    <input type="number" class="form-control" placeholder="MySQL Host Port" id="sqlPort" value="3306" required>
                 </div>
                 <div class="input-group form-group">
                     <span class="input-group-addon">MySQL Username</span>
@@ -99,6 +100,7 @@
             defaultPlayerID: $("#defaultPlayerID").val(),
 
             sqlHost: $("#sqlHost").val(),
+            sqlPort: $("#sqlPort").val(),
             sqlUsername: $("#sqlUsername").val(),
             sqlPassword: $("#sqlPassword").val(),
             sqlDBName: $("#sqlDBName").val(),

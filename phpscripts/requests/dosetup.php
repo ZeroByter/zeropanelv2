@@ -20,22 +20,24 @@
 		$config["communityName"] = $_POST["communityName"];
 		$config["mysql"] = array();
 		$config["mysql"]["ip"] = encrypt_text($_POST["sqlHost"], $config["key"]);
+        $config["mysql"]["port"] = encrypt_text($_POST["sqlPort"], $config["key"]);
 		$config["mysql"]["username"] = encrypt_text($_POST["sqlUsername"], $config["key"]);
 		$config["mysql"]["password"] = encrypt_text($_POST["sqlPassword"], $config["key"]);
 		$config["mysql"]["dbname"] = encrypt_text($_POST["sqlDBName"], $config["key"]);
 		$config["permissionsUpdateInterval"] = 8;
 		$config["maxlevels"] = [];
         $config["maxlevels"]["coplevel"] = 7;
-        $config["maxlevels"]["medlevel"] = 5;
-        $config["maxlevels"]["donorlvl"] = 1;
+        $config["maxlevels"]["mediclevel"] = 5;
+        $config["maxlevels"]["donatorlevel"] = 1;
         $config["licenseNames"] = [];
+        $config["aliases"] = ["playerID" => "playerid"];
         $config["banCount"] = 0;
         $config["enablePlayersBrowser"] = false;
 		file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/config.php", "<?php return " . var_export($config, true) . ";");
 	}
 
     if(!file_exists($_SERVER['DOCUMENT_ROOT'] . "/config.php")){
-        if(@mysqli_ping(@mysqli_connect($_POST["sqlHost"], $_POST["sqlUsername"], $_POST["sqlPassword"], $_POST["sqlDBName"]))){
+        if(@mysqli_ping(@mysqli_connect($_POST["sqlHost"], $_POST["sqlUsername"], $_POST["sqlPassword"], $_POST["sqlDBName"], $_POST["sqlPort"]))){
     		generateConfigFile();
             initliazeFirstTimeDatabase();
             if($_POST["useRCON"] == "Yes"){

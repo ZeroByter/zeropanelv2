@@ -5,11 +5,9 @@
 
 <style>
     a{
-        color: green;
         font-weight: bold;
     }
 	.logContainer{
-        color: green;
 		margin: 0px auto;
 	}
 	.logContainer:not(:first-of-type) > .logHeader{
@@ -17,13 +15,10 @@
 	}
 	.logHeader{
 		padding: 8px;
-		border: rgb(47, 185, 43) 1px solid;
 		border-bottom: none;
-		background: rgba(0, 255, 67, 0.14);
 		cursor: pointer;
 	}
 	.logDetails{
-		border: rgb(47, 185, 43) 1px solid;
 		border-top: none;
 		overflow: hidden;
 		transition: height 500ms;
@@ -31,6 +26,29 @@
 	}
 	.logWrapper{
 		padding: 12px 10px;
+	}
+
+	.givenMoneyContainer{
+		border: rgb(47, 185, 43) 1px solid;
+		background: rgba(0, 255, 67, 0.14);
+	}
+	.selfMoneyContainer{
+		border: rgb(250, 0, 0) 1px solid;
+		background: #ff000008;
+	}
+	.takenMoneyContainer{
+		border: rgb(47, 185, 43) 1px solid;
+		background: rgba(0, 255, 67, 0.14);
+	}
+
+	.givenMoney{
+		color: green;
+	}
+	.selfMoneyAlert{
+		color: red;
+	}
+	.takenMoney{
+		color: orange;
 	}
 </style>
 
@@ -54,13 +72,25 @@
                     $value->admins_playerid = filterXSS($value->admins_playerid);
                     $value->players_name = filterXSS($value->players_name);
                     $value->players_id = filterXSS($value->players_id);
+
+					$containerClass = "givenMoneyContainer";
+					$colorClass = "givenMoney";
+					if($value->money_given < 0){
+						$containerClass = "takenMoneyContainer";
+						$colorClass = "takenMoney";
+					}
+					if($value->admins_playerid == $value->players_playerid){
+						$containerClass = "selfMoneyContainer";
+						$colorClass = "selfMoneyAlert";
+					}
+
                     ?>
-            		<div class="logContainer">
-            			<div class="logHeader" data-log="<?php echo $value->id ?>">
+            		<div class="logContainer <?php echo $colorClass ?>">
+            			<div class="<?php echo $containerClass ?> logHeader" data-log="<?php echo $value->id ?>">
             				<span style="float: right"><?php echo timestamp_to_date($value->time, true) ?></span>
             				<?php echo "$value->admins_name ($value->admins_playerid) <i class='fa fa-arrow-right'></i> $value->players_name ($value->players_playerid)" ?>
             			</div>
-            			<div class="logDetails" data-log="<?php echo $value->id ?>">
+            			<div class="<?php echo $containerClass ?> logDetails" data-log="<?php echo $value->id ?>">
             				<div class="logWrapper" data-log="<?php echo $value->id ?>">
             					<b>Staff:</b> <?php echo "<a href='/staff/$value->admins_id'>$value->admins_name ($value->admins_playerid)</a>" ?><br>
             					<b>Money Before:</b> <?php echo $value->money_before ?><br>

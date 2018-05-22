@@ -8,9 +8,7 @@
                 adminuid int(11) NOT NULL,
                 player varchar(50) NOT NULL,
                 playeruid int(11) NOT NULL,
-                type varchar(100) NOT NULL,
                 notes varchar(500) NOT NULL,
-                punish varchar(50) NOT NULL,
                 time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY(id), UNIQUE id (id))");
             $stmt->execute();
