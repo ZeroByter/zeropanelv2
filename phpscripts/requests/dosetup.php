@@ -30,7 +30,7 @@
         $config["maxlevels"]["mediclevel"] = 5;
         $config["maxlevels"]["donatorlevel"] = 1;
         $config["licenseNames"] = [];
-        $config["aliases"] = ["playerID" => "playerid"];
+        $config["aliases"] = ["playerID" => "playerid", "lastPlayedAlias" => "timeupdated", "timeJoinedAlias" => "timejoined"];
         $config["banCount"] = 0;
         $config["enablePlayersBrowser"] = false;
 		file_put_contents($_SERVER['DOCUMENT_ROOT'] . "/config.php", "<?php return " . var_export($config, true) . ";");

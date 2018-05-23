@@ -65,8 +65,16 @@
 				<div class="well well-sm">
 					<h4>Aliases And Maximum Access-Levels</h4>
 					<div class="input-group form-group">
-						<span class="input-group-addon">Player ID Alias</span>
+						<span class="input-group-addon">'Player ID' Alias</span>
 						<input type="string" class="form-control" id="playerIDAlias" value="<?php echo $settings["aliases"]["playerID"] ?>" required>
+					</div>
+					<div class="input-group form-group">
+						<span class="input-group-addon">'Time Joined' Alias</span>
+						<input type="string" class="form-control" id="timeJoinedAlias" value="<?php echo $settings["aliases"]["timeJoinedAlias"] ?>" required>
+					</div>
+					<div class="input-group form-group">
+						<span class="input-group-addon">'Last Seen' Alias</span>
+						<input type="string" class="form-control" id="lastPlayedAlias" value="<?php echo $settings["aliases"]["lastPlayedAlias"] ?>" required>
 					</div>
 					<hr>
 					<div class="input-group form-group">
@@ -110,7 +118,7 @@
 				mysqlPassword: $("#mysqlPassword").val(),
 				mysqlDBName: $("#mysqlDBName").val(),
 			}, false, function(){
-				location.reload()
+				essentials.message("Settings updated!", "success")
 			})
 		}
 		return false
@@ -122,13 +130,15 @@
 			permUpdateInt: $("#permUpdateInt").val(),
 			enablePlayersBrowser: $("#enablePlayersBrowser").is(":checked"),
 			playerIDAlias: $("#playerIDAlias").val(),
+			timeJoinedAlias: $("#timeJoinedAlias").val(),
+			lastPlayedAlias: $("#lastPlayedAlias").val(),
 			maxCopLevel: $("#maxCopLevel").val(),
 			maxMedLevel: $("#maxMedLevel").val(),
 			maxDonorLevel: $("#maxDonorLevel").val(),
 			linksOffset: $("#linksOffset").val(),
 			resourceLinksOffset: $("#resourceLinksOffset").val(),
 		}, false, function(){
-			location.reload()
+			essentials.message("Settings updated!", "success")
 		})
 		return false
 	})

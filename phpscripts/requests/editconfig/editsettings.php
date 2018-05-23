@@ -10,6 +10,8 @@
 			$settings["communityName"] = $_POST["communityName"];
 			$settings["permissionsUpdateInterval"] = $_POST["permUpdateInt"];
             $settings["aliases"]["playerID"] = $_POST["playerIDAlias"];
+            $settings["aliases"]["timeJoinedAlias"] = $_POST["timeJoinedAlias"];
+            $settings["aliases"]["lastPlayedAlias"] = $_POST["lastPlayedAlias"];
 			$settings["maxlevels"]["coplevel"] = $_POST["maxCopLevel"];
 			$settings["maxlevels"]["medlevel"] = $_POST["maxMedLevel"];
 			$settings["maxlevels"]["donorlevel"] = $_POST["maxDonorLevel"];

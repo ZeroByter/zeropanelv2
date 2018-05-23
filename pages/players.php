@@ -1,8 +1,6 @@
 <?php
     $players = players::get_all_real();
     $total_records = count($players);
-
-    print_r(players::get_all_real());
 ?>
 
 <style>

@@ -113,7 +113,7 @@
                 $dbname = decrypt_text($settings["mysql"]["dbname"], $settings["key"]);
 
                 try{
-                    $mysqlConn = new PDO("mysql:host=$host;port=$port;dbname=$dbname", $user, $pass);
+                    $mysqlConn = new PDO("mysql:host=$host;port=$port;dbname=$dbname;charset=utf8;", $user, $pass);
                     return $mysqlConn;
                 }catch( PDOException $Exception ) {
                     //throw new MyDatabaseException( $Exception->getMessage( ) , $Exception->getCode( ) );

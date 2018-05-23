@@ -5,7 +5,7 @@
             $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS servers(
                 id int(11) NOT NULL auto_increment,
                 name varchar(64) NOT NULL,
-                use_rcon boolean NOT NULL,
+                use_rcon boolean NOT NULL DEFAULT 0,
                 rcon_ip varchar(255) NOT NULL,
                 rcon_port varchar(255) NOT NULL,
                 rcon_password varchar(255) NOT NULL,

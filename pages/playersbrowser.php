@@ -132,8 +132,8 @@
 					}else{
 						$("#playerInfoAliases").html(playersList[$(this).data("id")].aliases)
 					}
-					$("#playerInfoJoined").html(playersList[$(this).data("id")].timejoined)
-					$("#playerInfoUpdated").html(playersList[$(this).data("id")].timeupdated)
+					$("#playerInfoJoined").html(playersList[$(this).data("id")].<?php echo essentials::getAlias("timeJoinedAlias") ?>)
+					$("#playerInfoUpdated").html(playersList[$(this).data("id")].<?php echo essentials::getAlias("lastPlayedAlias") ?>)
 				})
 			}
 		})

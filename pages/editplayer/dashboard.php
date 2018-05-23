@@ -1,5 +1,6 @@
 <?php
-
+	$timeJoinedAlias = essentials::getAlias("timeJoinedAlias");
+	$lastPlayedAlias = essentials::getAlias("lastPlayedAlias");
 ?>
 
 <style>
@@ -85,15 +86,15 @@
 					<div class="panel panel-success">
 						<div class="panel-heading">Joined On</div>
 						<div class="panel-body">
-							<h4><?php echo timestamp_to_date($player->timejoined, true) ?></h4>
+							<h4><?php echo timestamp_to_date($player->$timeJoinedAlias, true) ?></h4>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="panel panel-success">
-						<div class="panel-heading">Last Played</div>
+						<div class="panel-heading">Last Seen</div>
 						<div class="panel-body">
-							<h4><?php echo timestamp_to_date($player->timeupdated, true) ?></h4>
+							<h4><?php echo timestamp_to_date($player->$lastPlayedAlias, true) ?> - been playing for <?php echo get_human_time_alt($player->$lastPlayedAlias - $player->$timeJoinedAlias) ?></h4>
 						</div>
 					</div>
 				</div>

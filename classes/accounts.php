@@ -25,7 +25,7 @@
                 accesslevel int(11) NOT NULL,
                 created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 iplist text NOT NULL,
-                banned boolean NOT NULL,
+                banned boolean NOT NULL DEFAULT 0,
             PRIMARY KEY(id), UNIQUE id (id))");
             $stmt->execute();
         }
@@ -113,8 +113,8 @@
             $salt = self::generate_salt();
             $password = hash("sha256", "$password");
             $password = hash("sha256", "$password:$salt");
-            $stmt = $conn->prepare("INSERT INTO accounts(username, password, salt, accesslevel, playerid, iplist, banned) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute(array($username, $password, $salt, $accesslevel, $playerid, "[]", "false"));
+            $stmt = $conn->prepare("INSERT INTO accounts(username, password, salt, accesslevel, playerid, iplist) VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute(array($username, $password, $salt, $accesslevel, $playerid, "[]"));
             $createdID = $conn->lastInsertId();
             return $createdID;
         }

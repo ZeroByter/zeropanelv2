@@ -31,7 +31,7 @@
         <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> Newest Player</h3></div>
-                <a href="/<?php echo $settings["linksOffset"] ?>players/<?php $playerIDAlias = $aliases["playerID"]; echo $allPlayers[0]->$playerIDAlias ?>"><div class="panel-body">
+                <a href="/<?php echo $settings["linksOffset"] ?>players/<?php $playerIDAlias = essentials::getAlias("playerID"); echo $allPlayers[0]->$playerIDAlias ?>"><div class="panel-body">
                     <?php
                         if(count($allPlayers) == 0){
                             echo "<h4>There are no records of any players!</h4>";

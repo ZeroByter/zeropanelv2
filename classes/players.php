@@ -21,7 +21,7 @@
 			}
 
             $conn = get_mysql_conn();
-    		$stmt = $conn->prepare("SELECT * FROM players WHERE uid LIKE '$search' OR name LIKE '%$search%' OR aliases LIKE '%$search%' OR ".essentials::getAlias("playerID")." LIKE '$search' ORDER BY timejoined DESC");
+    		$stmt = $conn->prepare("SELECT * FROM players WHERE uid LIKE '$search' OR name LIKE '%$search%' OR aliases LIKE '%$search%' OR ".essentials::getAlias("playerID")." LIKE '$search' ORDER BY ".essentials::getAlias("timeJoinedAlias")." DESC");
             $stmt->execute(array($search, "%$search%", "%$search%", $search));
 
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -30,7 +30,7 @@
 
         public function get_all_newplayersdata(){
             $conn = get_mysql_conn();
-    		$stmt = $conn->prepare("SELECT timejoined FROM players ORDER BY timejoined ASC");
+    		$stmt = $conn->prepare("SELECT ".essentials::getAlias("timeJoinedAlias")." FROM players ORDER BY ".essentials::getAlias("timeJoinedAlias")." ASC");
             $stmt->execute();
 
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -39,7 +39,7 @@
 
 		public function get_all_playersbrowser($nameSearch){
 			$conn = get_mysql_conn();
-    		$stmt = $conn->prepare("SELECT ".essentials::getAlias("playerID").",name,aliases,bankacc,timejoined,timeupdated FROM players WHERE name LIKE '%$nameSearch%' OR ".essentials::getAlias("playerID")." LIKE '$nameSearch'");
+    		$stmt = $conn->prepare("SELECT ".essentials::getAlias("playerID").",name,aliases,bankacc,".essentials::getAlias("timeJoinedAlias").",".essentials::getAlias("lastPlayedAlias")." FROM players WHERE name LIKE '%$nameSearch%' OR ".essentials::getAlias("playerID")." LIKE '$nameSearch'");
             $stmt->execute(array("%$nameSearch%", $nameSearch));
 
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
