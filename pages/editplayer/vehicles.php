@@ -36,7 +36,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<?php foreach(vehicles::get_by_owner($player->playerid, 10) as $value){ ?>
+						<?php foreach(vehicles::get_by_owner($player->$playerIDAlias, 10) as $value){ ?>
 							<tr class="itemRow" data-id="<?php echo $value->id ?>">
 								<td><?php echo filterXSS($value->classname) ?></td>
 								<td><?php echo $value->side ?></td>
@@ -46,7 +46,7 @@
 						<?php } ?>
 					</tbody>
 				</table>
-				<h4 style="float:right;"><a href="/<?php echo $linksOffset ?>vehicles?search=<?php echo $player->playerid ?>">See all...</a></h4>
+				<h4 style="float:right;"><a href="/<?php echo $linksOffset ?>vehicles?search=<?php echo $player->$playerIDAlias ?>">See all...</a></h4>
             </div>
         </div>
     </div>

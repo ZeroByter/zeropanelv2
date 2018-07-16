@@ -13,7 +13,7 @@
 
 <h4>
 	Steps to fix this problem:<br><br>
-	<b>1.</b> In the root folder of the panel (<?php echo __DIR__ ?>) there is a file named 'MySQL Error Fix Code - [code here]'.<br>
+	<b>1.</b> In the root folder of the panel (<?php echo substr(__DIR__, 0, -5) ?>) there is a file named 'MySQL Error Fix Code - [code here]'.<br>
 	<b>2.</b> Copy the code that appears after the dash and insert it into the form below.<br>
 	<b>3.</b> Insert the new MySQL connection details to be used and submit!<br>
 </h4>
@@ -28,6 +28,7 @@
 		<div class="form-group input-group">
 			<span class="input-group-addon">New MySQL Host IP</span>
 			<input type="text" class="form-control" id="newip">
+            <input type="number" class="form-control" id="newport" value="3306">
 		</div>
 		<div class="form-group input-group">
 			<span class="input-group-addon">New MySQL Username</span>
@@ -52,6 +53,7 @@
 		essentials.sendPost("/<?php echo $resourceLinksOffset ?>phpscripts/requests/fixconfig.php", {
 			fixcode: $("#fixcode").val(),
 			newip: $("#newip").val(),
+            newport: $("#newport").val(),
 			newusername: $("#newusername").val(),
 			newpassword: $("#newpassword").val(),
 			newdbname: $("#newdbname").val(),

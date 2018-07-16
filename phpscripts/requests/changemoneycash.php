@@ -7,8 +7,10 @@
             players::changeMoneyCash($_POST["uid"], $_POST["amount"]);
             $moneyAfter = players::get_by_id($_POST["uid"])->bankacc;
 
+            $playerIDAlias = essentials::getAlias("playerID");
+
             $player = players::get_by_id($_POST["uid"]);
-			logs::add_log("money", "$1 added {$_POST["amount"]} to [player/$player->name($player->playerid)]. See money logs for more details", 10);
+			logs::add_log("money", "$1 added {$_POST["amount"]} to [player/$player->name($player->$playerIDAlias)]. See money logs for more details", 10);
             moneylogs::create($moneyBefore, $_POST["amount"], $moneyAfter, $_POST["uid"], "Cash");
             echo "success";
         }else{

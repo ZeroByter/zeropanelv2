@@ -2,7 +2,7 @@
     class moneylogs{
 		public function create_db(){
             $conn = get_mysql_conn();
-            mysqli_query($conn, "CREATE TABLE IF NOT EXISTS le_compensation_log(
+            $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS le_compensation_log(
                 id int(10) NOT NULL auto_increment,
                 admins_id int(35) NOT NULL,
                 admins_playerid int(50) NOT NULL,
@@ -16,9 +16,9 @@
                 players_name int(50) NOT NULL,
                 time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY(id), UNIQUE id (id))");
-            mysqli_close($conn);
+            $stmt->execute();
         }
-		
+
         public function get_all($page){
 			$search = "";
 			if(isset($_GET["search"])){
@@ -26,11 +26,11 @@
 			}
 
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM le_compensation_log WHERE admins_id LIKE '$search' OR admins_playerid LIKE '$search' OR admins_name LIKE '%$search%' OR players_id LIKE '$search' OR players_playerid LIKE '$search' OR players_name LIKE '%$search%' ORDER BY time DESC LIMIT ". ($page-1) * 30 .", 30");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
+    		$stmt = $conn->prepare("SELECT * FROM le_compensation_log WHERE admins_id LIKE ? OR admins_playerid LIKE ? OR admins_name LIKE ? OR players_id LIKE ? OR players_playerid LIKE ? OR players_name LIKE ? ORDER BY time DESC LIMIT ". ($page-1) * 30 .", 30");
+            $stmt->execute(array($search, $search, "%$search%", $search, $search, "%$search%"));
 
-            return array_filter($array);
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function get_all_real(){
@@ -40,21 +40,20 @@
 			}
 
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT * FROM le_compensation_log WHERE admins_id LIKE '$search' OR admins_playerid LIKE '$search' OR admins_name LIKE '$search' OR players_id LIKE '$search' OR players_playerid LIKE '$search' OR players_name LIKE '$search' ORDER BY time DESC");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
+    		$stmt = $conn->prepare("SELECT * FROM le_compensation_log WHERE admins_id LIKE ? OR admins_playerid LIKE ? OR admins_name LIKE ? OR players_id LIKE ? OR players_playerid LIKE ? OR players_name LIKE ? ORDER BY time DESC");
+            $stmt->execute(array($search, $search, "%$search%", $search, $search, "%$search%"));
 
-            return array_filter($array);
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function get_all_by_player($id){
             $conn = get_mysql_conn();
-            $id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_query($conn, "SELECT * FROM le_compensation_log WHERE players_id='$id' ORDER BY time DESC");
-    		mysqli_close($conn);
-            while($array[] = mysqli_fetch_object($result));
+            $stmt = $conn->prepare("SELECT * FROM le_compensation_log WHERE players_id=? ORDER BY time DESC");
+            $stmt->execute(array($id));
 
-            return array_filter($array);
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
         public function create($moneyBefore, $moneyGiven, $moneyNow, $playersID, $updateType){
@@ -62,29 +61,22 @@
             $player = players::get_by_id($playersID);
 
             $conn = get_mysql_conn();
-            $moneyBefore = mysqli_real_escape_string($conn, $moneyBefore);
-            $moneyGiven = mysqli_real_escape_string($conn, $moneyGiven);
-            $moneyNow = mysqli_real_escape_string($conn, $moneyNow);
-            $playersID = mysqli_real_escape_string($conn, $playersID);
-            $updateType = mysqli_real_escape_string($conn, $updateType);
-            $result = mysqli_query($conn, "INSERT INTO le_compensation_log(admins_id, admins_playerid, admins_name, money_before, money_given, money_now, update_type, players_id, players_playerid, players_name) VALUES ('$currAccount->id', '$currAccount->playerid', '$currAccount->username', '$moneyBefore', '$moneyGiven', '$moneyNow', '$updateType', '$playersID', '$player->playerid', '$player->name')");
-            mysqli_close($conn);
+            $stmt = $conn->prepare("INSERT INTO le_compensation_log(admins_id, admins_playerid, admins_name, money_before, money_given, money_now, update_type, players_id, players_playerid, players_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->execute(array($currAccount->id, $currAccount->playerid, $currAccount->username, $moneyBefore, $moneyGiven, $moneyNow, $updateType, $playersID, $player->playerid, $player->name));
         }
 
         public function getMoneyAdded(){
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT SUM(money_given) AS sum FROM le_compensation_log WHERE money_given > 0");
-    		mysqli_close($conn);
-
-            return mysqli_fetch_object($result)->sum;
+    		$stmt = $conn->prepare("SELECT SUM(money_given) AS sum FROM le_compensation_log WHERE money_given > 0");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_OBJ)->sum;
         }
 
         public function getMoneyTaken(){
             $conn = get_mysql_conn();
-    		$result = mysqli_query($conn, "SELECT SUM(money_given) AS sum FROM le_compensation_log WHERE money_given < 0");
-    		mysqli_close($conn);
-
-            return mysqli_fetch_object($result)->sum;
+    		$stmt = $conn->prepare("SELECT SUM(money_given) AS sum FROM le_compensation_log WHERE money_given < 0");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_OBJ)->sum;
         }
     }
 ?>

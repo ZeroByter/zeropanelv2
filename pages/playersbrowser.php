@@ -121,7 +121,7 @@
 					$("#name").val(playersList[$(this).data("id")].name)
 					$("#info-panel").css("display", "block")
 					$("#playerInfoName").html(playersList[$(this).data("id")].name)
-					$("#playerInfoSteamID").html(playersList[$(this).data("id")].playerid)
+					$("#playerInfoSteamID").html(playersList[$(this).data("id")].<?php echo $playerIDAlias ?>)
 					$("#playerInfoBank").html(playersList[$(this).data("id")].bankacc)
 					$("#playerInfoHouses").html(playersList[$(this).data("id")].houses)
 					$("#playerInfoCopCars").html(playersList[$(this).data("id")].policecars.join(", "))
@@ -132,8 +132,8 @@
 					}else{
 						$("#playerInfoAliases").html(playersList[$(this).data("id")].aliases)
 					}
-					$("#playerInfoJoined").html(playersList[$(this).data("id")].timejoined)
-					$("#playerInfoUpdated").html(playersList[$(this).data("id")].timeupdated)
+					$("#playerInfoJoined").html(playersList[$(this).data("id")].<?php echo essentials::getAlias("timeJoinedAlias") ?>)
+					$("#playerInfoUpdated").html(playersList[$(this).data("id")].<?php echo essentials::getAlias("lastPlayedAlias") ?>)
 				})
 			}
 		})

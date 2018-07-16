@@ -63,7 +63,20 @@
 					</span>
 				</div>
 				<div class="well well-sm">
-					<h4>Max Access Levels</h4>
+					<h4>Aliases And Maximum Access-Levels</h4>
+					<div class="input-group form-group">
+						<span class="input-group-addon">'Player ID' Alias</span>
+						<input type="string" class="form-control" id="playerIDAlias" value="<?php echo $settings["aliases"]["playerID"] ?>" required>
+					</div>
+					<div class="input-group form-group">
+						<span class="input-group-addon">'Time Joined' Alias</span>
+						<input type="string" class="form-control" id="timeJoinedAlias" value="<?php echo $settings["aliases"]["timeJoinedAlias"] ?>" required>
+					</div>
+					<div class="input-group form-group">
+						<span class="input-group-addon">'Last Seen' Alias</span>
+						<input type="string" class="form-control" id="lastPlayedAlias" value="<?php echo $settings["aliases"]["lastPlayedAlias"] ?>" required>
+					</div>
+					<hr>
 					<div class="input-group form-group">
 						<span class="input-group-addon">Cop Level</span>
 						<input type="number" class="form-control" id="maxCopLevel" value="<?php echo $settings["maxlevels"]["coplevel"] ?>" required>
@@ -74,11 +87,11 @@
 					</div>
 					<div class="input-group form-group">
 						<span class="input-group-addon">Donor Level</span>
-						<input type="number" class="form-control" id="maxDonorLevel" value="<?php echo $settings["maxlevels"]["donorlevel"] ?>" required>
+						<input type="number" class="form-control" id="maxDonorLevel" value="<?php echo $settings["maxlevels"]["donatorlevel"] ?>" required>
 					</div>
 				</div>
 				<div class="well well-sm">
-					<h4>URL Settings <font color="red" data-toggle="tooltip" title="Do not touch this unless you know this is for and what you are doing! This could mess up access to your panel if done wrong!">*</font></h4>
+					<b><h4>URL Settings <font color="red" data-toggle="tooltip" title="Do not touch this unless you know this is for and what you are doing! This could mess up access to your panel if done wrong!">!! ( ͡° ʖ̯ ͡°) !!</font></h4></b>
 					<div class="input-group form-group">
 						<span class="input-group-addon">URL Offset</span>
 						<input type="text" class="form-control" id="linksOffset" value="<?php echo $settings["linksOffset"] ?>">
@@ -105,7 +118,7 @@
 				mysqlPassword: $("#mysqlPassword").val(),
 				mysqlDBName: $("#mysqlDBName").val(),
 			}, false, function(){
-				location.reload()
+				essentials.message("Settings updated!", "success")
 			})
 		}
 		return false
@@ -116,13 +129,16 @@
 			communityName: $("#communityName").val(),
 			permUpdateInt: $("#permUpdateInt").val(),
 			enablePlayersBrowser: $("#enablePlayersBrowser").is(":checked"),
+			playerIDAlias: $("#playerIDAlias").val(),
+			timeJoinedAlias: $("#timeJoinedAlias").val(),
+			lastPlayedAlias: $("#lastPlayedAlias").val(),
 			maxCopLevel: $("#maxCopLevel").val(),
 			maxMedLevel: $("#maxMedLevel").val(),
 			maxDonorLevel: $("#maxDonorLevel").val(),
 			linksOffset: $("#linksOffset").val(),
 			resourceLinksOffset: $("#resourceLinksOffset").val(),
 		}, false, function(){
-			location.reload()
+			essentials.message("Settings updated!", "success")
 		})
 		return false
 	})

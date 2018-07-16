@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="input-group form-group">
                                     <span class="input-group-addon">Steam ID</span>
-                                    <input type="number" class="form-control" value="<?php echo $staff->playerid ?>" id="steamid">
+                                    <input type="number" class="form-control" value="<?php echo $staff->$playerIDAlias ?>" id="steamid">
                                 </div>
                                 <button type="submit" class="btn btn-primary" style="float:right;"><i class="fa fa-edit" aria-hidden="true"></i> Edit staff</button>
                                 <button type="button" class="btn btn-primary" id="iphistory" style="float:right;margin-right:4px;" data-toggle="modal" data-target="#viewIPHistory"><i class="fa fa-list" aria-hidden="true"></i> View IP History</button>

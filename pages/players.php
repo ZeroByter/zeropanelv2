@@ -33,9 +33,9 @@
 			</thead>
 			<tbody>
 				<?php foreach(players::get_all($pageNum) as $value){ ?>
-					<tr class="playerRow" data-id="<?php echo $value->playerid ?>">
+					<tr class="playerRow" data-id="<?php echo $value->$playerIDAlias ?>">
 						<td><?php echo filterXSS($value->name) ?></td>
-						<td><?php echo $value->playerid ?></td>
+						<td><?php echo $value->$playerIDAlias ?></td>
 						<td><?php echo $value->cash ?></td>
 						<td><?php echo $value->bankacc ?></td>
 						<td><?php echo $value->coplevel ?></td>

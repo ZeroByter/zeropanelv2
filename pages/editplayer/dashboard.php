@@ -1,5 +1,6 @@
 <?php
-
+	$timeJoinedAlias = essentials::getAlias("timeJoinedAlias");
+	$lastPlayedAlias = essentials::getAlias("lastPlayedAlias");
 ?>
 
 <style>
@@ -23,7 +24,7 @@
 					<div class="panel panel-primary">
 						<div class="panel-heading">Steam ID</div>
 						<div class="panel-body">
-							<h4><?php echo filterXSS($player->playerid) ?></h4>
+							<h4><?php echo filterXSS($player->$playerIDAlias) ?></h4>
 						</div>
 					</div>
 				</div>
@@ -75,7 +76,7 @@
 					<div class="panel panel-info">
 						<div class="panel-heading">Vehicles</div>
 						<div class="panel-body">
-							<h4><?php echo count(vehicles::get_by_owner($player->playerid)) ?></h4>
+							<h4><?php echo count(vehicles::get_by_owner($player->$playerIDAlias)) ?></h4>
 						</div>
 					</div>
 				</div>
@@ -85,15 +86,15 @@
 					<div class="panel panel-success">
 						<div class="panel-heading">Joined On</div>
 						<div class="panel-body">
-							<h4><?php echo timestamp_to_date($player->timejoined, true) ?></h4>
+							<h4><?php echo timestamp_to_date($player->$timeJoinedAlias, true) ?></h4>
 						</div>
 					</div>
 				</div>
 				<div class="col-md-4">
 					<div class="panel panel-success">
-						<div class="panel-heading">Last Played</div>
+						<div class="panel-heading">Last Seen</div>
 						<div class="panel-body">
-							<h4><?php echo timestamp_to_date($player->timeupdated, true) ?></h4>
+							<h4><?php echo timestamp_to_date($player->$lastPlayedAlias, true) ?> - been playing for <?php echo get_human_time_alt($player->$lastPlayedAlias - $player->$timeJoinedAlias) ?></h4>
 						</div>
 					</div>
 				</div>
@@ -101,7 +102,7 @@
 					<div class="panel panel-success">
 						<div class="panel-heading">Houses</div>
 						<div class="panel-body">
-							<h4><?php echo count(houses::get_by_owner($player->playerid)) ?></h4>
+							<h4><?php echo count(houses::get_by_owner($player->$playerIDAlias)) ?></h4>
 						</div>
 					</div>
 				</div>
@@ -129,7 +130,7 @@
 
 <script>
 	$(".guid").each(function(){
-		$(this).html(essentials.steamIDToGUID("<?php echo $player->playerid ?>"))
+		$(this).html(essentials.steamIDToGUID("<?php echo $player->$playerIDAlias ?>"))
 	})
 
 	$("#releasejail").click(function(){

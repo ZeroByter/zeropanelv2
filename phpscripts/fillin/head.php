@@ -1,13 +1,13 @@
 <head>
 	<title><?php echo !empty($settings["communityName"]) ? $settings["communityName"] . " - " : "" ?> ZeroPanel <?php echo getCurrentVersion() ?></title>
-	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/bootstrap.css"></link>
-	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/bootstrap-colorpicker.css"></link>
-	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/animate.css"></link>
-	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/bootstrap.override.css"></link>
-	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/base.css"></link>
-	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/fontawesome.min.css"></link>
-	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/fontawesome-all.min.css"></link>
-	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>stylesheets/fa-regular.min.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>css/bootstrap.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>css/bootstrap-colorpicker.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>css/animate.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>css/bootstrap.override.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>css/base.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>css/fontawesome.min.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>css/fontawesome-all.min.css"></link>
+	<link rel="stylesheet" type="text/css" href="/<?php echo $resourceLinksOffset ?>css/fa-regular.min.css"></link>
 	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ruda:400,700,900">
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/jquery.js"></script>
 	<script src="/<?php echo $resourceLinksOffset ?>jsscripts/bootstrap.js"></script>

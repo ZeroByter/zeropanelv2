@@ -22,9 +22,10 @@
             $reason = $value["3"];
             $notes = "";
             $timeBanned = "";
-            $expiresTime = get_human_time_alt($value["2"] * 60);
             if($value["2"] == "perm"){
                 $expiresTime = "Permanent";
+            }else{
+                $expiresTime = get_human_time_alt($value["2"] * 60);
             }
             $bannedBy = "";
             $mysqlBan = bans::get_by_banid($banid);

@@ -2,7 +2,8 @@
     class logs{
         public function create_db(){
             $conn = get_mysql_conn();
-            mysqli_query($conn, "CREATE TABLE IF NOT EXISTS logs(
+
+            $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS logs(
                 id int(11) NOT NULL auto_increment,
                 owner int(11) NOT NULL,
                 ip varchar(64) NOT NULL,
@@ -11,16 +12,15 @@
                 description text NOT NULL,
                 level int(11) NOT NULL,
             PRIMARY KEY(id), UNIQUE id (id))");
-            mysqli_close($conn);
+            $stmt->execute(array());
         }
 
         public function get_by_id($id){
             $conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
-    		$result = mysqli_query($conn, "SELECT * FROM logs WHERE id='$id'");
-    		mysqli_close($conn);
+            $stmt = $conn->prepare("SELECT * FROM logs WHERE id=?");
+            $stmt->execute(array($id));
 
-    		return mysqli_fetch_object($result);
+    		return $stmt->fetch(PDO::FETCH_OBJ);
         }
 
         public function get_all($page){
@@ -28,31 +28,29 @@
             if(isset($_GET["search"])){
                 $search = $_GET["search"];
             }
+
 			$conn = get_mysql_conn();
-            $result = mysqli_query($conn, "SELECT * FROM logs WHERE `time` LIKE '%$search%' OR title LIKE '%$search%' ORDER BY time DESC LIMIT ". ($page-1) * 30 .", 30");
-            mysqli_close($conn);
-            $array = array();
-            while($array[] = mysqli_fetch_object($result));
-            return array_filter($array);
+            $stmt = $conn->prepare("SELECT * FROM logs WHERE `time` LIKE ? OR title LIKE ? ORDER BY time DESC LIMIT ". ($page-1) * 30 .", 30");
+            $stmt->execute(array("%$search%", "%$search%"));
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
 		}
 
         public function get_all_real(){
             $conn = get_mysql_conn();
-            $result = mysqli_query($conn, "SELECT id FROM logs");
-            mysqli_close($conn);
-            $array = array();
 
-            while($array[] = mysqli_fetch_object($result));
-            return array_filter($array);
+            $stmt = $conn->prepare("SELECT id FROM logs");
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
         }
 
 		public function get_all_by_owner($owner, $limit=12){
 			$conn = get_mysql_conn();
-            $result = mysqli_query($conn, "SELECT * FROM logs WHERE owner='$owner' ORDER BY time DESC LIMIT $limit");
-            mysqli_close($conn);
-
-            while($array[] = mysqli_fetch_object($result));
-            return array_filter($array);
+            $stmt = $conn->prepare("SELECT * FROM logs WHERE owner=? ORDER BY time DESC LIMIT ?");
+            $stmt->execute(array($owner, $limit));
+            $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+            return array_filter($result);
 		}
 
         public function add_log($title, $description, $level=1, $overrideOwner=null){
@@ -73,13 +71,11 @@
 			}
 
             $conn = get_mysql_conn();
-            $title = mysqli_real_escape_string($conn, $title);
-            $description = mysqli_real_escape_string($conn, $description);
             $description = json_encode(preg_replace("/\\$1/", "$username ($steamid)", $description));
             $description = substr($description, 1, -1);
             $time = time();
-            $result = mysqli_query($conn, "INSERT INTO logs(owner, ip, title, description, level) VALUES ('$owner', '$ip', '$title', '$description', '$level')");
-            mysqli_close($conn);
+            $stmt = $conn->prepare("INSERT INTO logs(owner, ip, title, description, level) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute(array($owner, $ip, $title, $description, $level));
         }
     }
 ?>

@@ -31,8 +31,14 @@
         <div class="col-md-4">
             <div class="panel panel-primary">
                 <div class="panel-heading"><h3 class="panel-title"><i class="fa fa-user" aria-hidden="true"></i> Newest Player</h3></div>
-                <a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $allPlayers[0]->playerid ?>"><div class="panel-body">
-                    <h4><?php echo filterXSS($allPlayers[0]->name) ?></h4>
+                <a href="/<?php echo $settings["linksOffset"] ?>players/<?php $playerIDAlias = essentials::getAlias("playerID"); echo $allPlayers[0]->$playerIDAlias ?>"><div class="panel-body">
+                    <?php
+                        if(count($allPlayers) == 0){
+                            echo "<h4>There are no records of any players!</h4>";
+                        }else{
+                            echo "<h4>" . filterXSS($allPlayers[0]->name) . "</h4>";
+                        }
+                    ?>
                 </div></a>
             </div>
         </div>
@@ -117,7 +123,7 @@
                 <tbody>
                     <?php foreach($allPlayersCash as $value){ ?>
                         <tr>
-                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->playerid ?>"><?php echo filterXSS($value->name) ?></a></td>
+                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->$playerIDAlias ?>"><?php echo filterXSS($value->name) ?></a></td>
                             <td><?php echo $value->bankacc ?></td>
                             <td><?php echo $value->cash ?></td>
                         </tr>
@@ -138,7 +144,7 @@
                 <tbody>
                     <?php foreach($allPlayersCashPoor as $value){ ?>
                         <tr>
-                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->playerid ?>"><?php echo filterXSS($value->name) ?></a></td>
+                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->$playerIDAlias ?>"><?php echo filterXSS($value->name) ?></a></td>
                             <td><?php echo $value->bankacc ?></td>
                             <td><?php echo $value->cash ?></td>
                         </tr>
@@ -158,7 +164,7 @@
                 <tbody>
                     <?php foreach($allPlayersCopLvl as $value){ ?>
                         <tr>
-                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->playerid ?>"><?php echo filterXSS($value->name) ?></a></td>
+                            <td><a href="/<?php echo $settings["linksOffset"] ?>players/<?php echo $value->$playerIDAlias ?>"><?php echo filterXSS($value->name) ?></a></td>
                             <td><?php echo $value->coplevel ?></td>
                         </tr>
                     <?php } ?>

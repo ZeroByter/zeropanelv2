@@ -4,12 +4,14 @@
     use \Nizarii\ARC;
 
     if(isset($_POST["serverid"]) && isset($_POST["playerid"]) && isset($_POST["guid"]) && isset($_POST["reason"]) && isset($_POST["notes"]) && isset($_POST["time"])){
+        $playerIDAlias = essentials::getAlias("playerID");
+
         if(permissions::user_has_permission("banplayer")){
             $currAccount = accounts::get_current_account();
 			$player = players::get_by_id($_POST["playerid"]);
 
 			if($_POST["reason"] == ""){ echo "Reason can not be empty!"; return; }
-            foreach(bans::get_all_active($player->playerid) as $value){
+            foreach(bans::get_all_active($player->$playerIDAlias) as $value){
 				echo "User is already banned!";
                 return;
     		}
@@ -23,7 +25,7 @@
                 $rcon->addBan($_POST["guid"], "$player->name | Admin Ban | #$banCount | $currAccount->username", intval($_POST["time"]));
                 $rcon->loadBans();
                 $rcon->disconnect();
-				bans::create($player->playerid, $_POST["guid"], $_POST["time"], $_POST["reason"], $_POST["notes"]);
+				bans::create($player->$playerIDAlias, $_POST["guid"], $_POST["time"], $_POST["reason"], $_POST["notes"]);
 
                 logs::add_log("rcon", "$1 banned player [{$_POST["guid"]}] for [reason/{$_POST["reason"]}] for [minutes/{$_POST["time"]}]", 60);
 				echo "success";

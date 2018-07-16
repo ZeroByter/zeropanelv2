@@ -4,6 +4,11 @@
     if(isset($_POST["id"]) && isset($_POST["username"]) && isset($_POST["accesslevel"]) && isset($_POST["steamid"])){
         $account = accounts::get_by_id($_POST["id"]);
 
+        if(!permissions::user_has_permission("editstaff")){
+			echo "You don't have permission to edit this account!";
+			return;
+		}
+
         if(!permissions::user_has_permission("ignoreaccesslevel") && $account->accesslevel >= accounts::get_current_account()->accesslevel){
             echo "You don't have permission to create edit this account!";
             return;

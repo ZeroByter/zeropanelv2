@@ -1,5 +1,5 @@
 <?php
-	include("/../fillin/scripts.php");
+	include("../fillin/scripts.php");
 
 	if(!empty($_POST["id"]) && !empty($_POST["newName"])){
         if(permissions::user_has_permission("editpermissions")){

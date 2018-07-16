@@ -11,9 +11,6 @@
         		$settings = get_config();
                 $server = servers::get_by_id($_POST["serverid"]);
         		$rcon = new ARC($server->rcon_ip, decrypt_text($server->rcon_password, $settings["key"]), intval($server->rcon_port));
-                if($_POST["message"] == ""){
-                    $_POST["message"] = "Kicked by $currAccount->username";
-                }
                 $rcon->command("restartserver");
                 $rcon->disconnect();
 
