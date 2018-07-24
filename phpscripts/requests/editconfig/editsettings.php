@@ -14,7 +14,7 @@
             $settings["aliases"]["lastPlayedAlias"] = $_POST["lastPlayedAlias"];
 			$settings["maxlevels"]["coplevel"] = $_POST["maxCopLevel"];
 			$settings["maxlevels"]["medlevel"] = $_POST["maxMedLevel"];
-			$settings["maxlevels"]["donorlevel"] = $_POST["maxDonorLevel"];
+			$settings["maxlevels"]["donatorlevel"] = $_POST["maxDonorLevel"];
 			$settings["enablePlayersBrowser"] = $_POST["enablePlayersBrowser"] === "true" ? true : false;
             write_config($settings);
 			logs::add_log("panel configuration", "$1 edited the panel main settings", 100);

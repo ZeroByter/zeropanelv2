@@ -54,10 +54,10 @@
 </div>
 
 <script>
-	var playerID = <?php echo $player->uid ?>
-	var serverid = 0
-	var bantime = 1
-	var bantype = "Minutes"
+	var playerID = <?php echo $player->uid ?>;
+	var serverid = 0;
+	var bantime = 1;
+	var bantype = "Minutes";
 
 	function getTime(){
 		if(bantype == "Minutes"){

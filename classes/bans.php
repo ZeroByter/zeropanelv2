@@ -87,7 +87,7 @@
 
             $conn = get_mysql_conn();
             $stmt = $conn->prepare("INSERT INTO bans(banid, name, steamid, guid, length, reason, notes, staff, active) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute(array($self::getBanCount(), $player->name, $steamID, $guid, $length, $reason, $notes, $currAccount->id, 1));
+            $stmt->execute(array(self::getBanCount(), $player->name, $steamID, $guid, $length, $reason, $notes, $currAccount->id, 1));
         }
 
         public function active($banid){
