@@ -16,7 +16,7 @@
 
         public function get_all($id){
             $conn = get_mysql_conn();
-            $stmt = $conn->prepare("SELECT * FROM player_notes WHERE id=? ORDER BY time DESC");
+            $stmt = $conn->prepare("SELECT * FROM player_notes WHERE playeruid=? ORDER BY time DESC");
             $stmt->execute(array($id));
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);
             return array_filter($result);
