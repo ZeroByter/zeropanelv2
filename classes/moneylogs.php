@@ -5,15 +5,15 @@
             $stmt = $conn->prepare("CREATE TABLE IF NOT EXISTS le_compensation_log(
                 id int(10) NOT NULL auto_increment,
                 admins_id int(35) NOT NULL,
-                admins_playerid int(50) NOT NULL,
-                admins_name int(50) NOT NULL,
+                admins_playerid varchar(64) NOT NULL,
+                admins_name text NOT NULL,
                 money_before int(50) NOT NULL,
                 money_given int(50) NOT NULL,
                 money_now int(50) NOT NULL,
                 update_type varchar(50) NOT NULL,
                 players_id int(50) NOT NULL,
-                players_playerid int(50) NOT NULL,
-                players_name int(50) NOT NULL,
+                players_playerid varchar(64) NOT NULL,
+                players_name text NOT NULL,
                 time timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY(id), UNIQUE id (id))");
             $stmt->execute();
@@ -59,10 +59,13 @@
         public function create($moneyBefore, $moneyGiven, $moneyNow, $playersID, $updateType){
             $currAccount = accounts::get_current_account();
             $player = players::get_by_id($playersID);
-
+            
+            $playerIdAlias = essentials::getAlias("playerID");
+            $playerSteamId = $player->$playerIdAlias;
+        
             $conn = get_mysql_conn();
             $stmt = $conn->prepare("INSERT INTO le_compensation_log(admins_id, admins_playerid, admins_name, money_before, money_given, money_now, update_type, players_id, players_playerid, players_name) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute(array($currAccount->id, $currAccount->playerid, $currAccount->username, $moneyBefore, $moneyGiven, $moneyNow, $updateType, $playersID, $player->playerid, $player->name));
+            $stmt->execute(array($currAccount->id, $currAccount->playerid, $currAccount->username, $moneyBefore, $moneyGiven, $moneyNow, $updateType, $playersID, $playerSteamId, $player->name));
         }
 
         public function getMoneyAdded(){

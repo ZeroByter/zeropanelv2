@@ -1,3 +1,7 @@
+AddDefaultCharset utf-8
+AddCharset utf-8 .html .css .js
+DefaultLanguage en-US
+
 # Caching schema
 <FilesMatch "\.(jpg|png|css|js)$">
 Header set Cache-Control "public, max-age=3600"
