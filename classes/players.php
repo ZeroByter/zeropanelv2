@@ -21,7 +21,7 @@
 			}
 
             $conn = get_mysql_conn();
-    		$stmt = $conn->prepare("SELECT * FROM players WHERE uid LIKE '$search' OR name LIKE '%$search%' OR aliases LIKE '%$search%' OR ".essentials::getAlias("playerID")." LIKE '$search' ORDER BY ".essentials::getAlias("timeJoinedAlias")." DESC");
+    		$stmt = $conn->prepare("SELECT * FROM players WHERE uid LIKE ? OR name LIKE ? OR aliases LIKE ? OR ".essentials::getAlias("playerID")." LIKE ? ORDER BY ".essentials::getAlias("timeJoinedAlias")." DESC");
             $stmt->execute(array($search, "%$search%", "%$search%", $search));
 
             $result = $stmt->fetchAll(PDO::FETCH_OBJ);

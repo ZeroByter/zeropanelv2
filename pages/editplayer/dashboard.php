@@ -94,7 +94,7 @@
 					<div class="panel panel-success">
 						<div class="panel-heading">Last Seen</div>
 						<div class="panel-body">
-							<h4><?php echo timestamp_to_date($player->$lastPlayedAlias, true) ?> - been playing for <?php echo get_human_time_alt($player->$lastPlayedAlias - $player->$timeJoinedAlias) ?></h4>
+							<h4><?php echo timestamp_to_date($player->$lastPlayedAlias, true) ?> - been playing for <?php echo get_human_time_alt(strtotime($player->$lastPlayedAlias) - strtotime($player->$timeJoinedAlias)) ?></h4>
 						</div>
 					</div>
 				</div>
