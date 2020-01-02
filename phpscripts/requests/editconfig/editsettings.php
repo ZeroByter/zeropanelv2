@@ -16,6 +16,7 @@
 			$settings["maxlevels"]["medlevel"] = $_POST["maxMedLevel"];
 			$settings["maxlevels"]["donatorlevel"] = $_POST["maxDonorLevel"];
 			$settings["enablePlayersBrowser"] = $_POST["enablePlayersBrowser"] === "true" ? true : false;
+			$settings["enableSessionIPLock"] = $_POST["enableSessionIPLock"] === "true" ? true : false;
             write_config($settings);
 			logs::add_log("panel configuration", "$1 edited the panel main settings", 100);
             echo "success";

@@ -51,7 +51,10 @@
             $stmt->execute(array($sessionid));
             $result = $stmt->fetch(PDO::FETCH_OBJ);
 
-            if($result->ip != $_SERVER["REMOTE_ADDR"]){
+            $sessionIPLock = @get_config()["enableSessionIPLock"];
+            if(!isset($sessionIPLock)) $sessionIPLock = true;
+
+            if($sessionIPLock && $result->ip != $_SERVER["REMOTE_ADDR"]){
                 return false;
             }
 

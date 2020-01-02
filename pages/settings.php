@@ -56,11 +56,19 @@
 					<span class="input-group-addon">Permissions Update Interval</span>
 					<input type="number" class="form-control" id="permUpdateInt" value="<?php echo $settings["permissionsUpdateInterval"] ?>" required>
 				</div>
-				<div class="input-group form-group">
-					<span class="input-group-addon">Enable the 'players browser' page</span>
-					<span class="input-group-addon">
-						<input type="checkbox" id="enablePlayersBrowser" <?php echo (@$settings["enablePlayersBrowser"]) ? "checked" : "" ?>>
-					</span>
+				<div class="well well-sm">
+					<div class="input-group form-group">
+						<span class="input-group-addon">Enable the <a href="/playersbrowser" target="_blank">'players browser'</a> page</span>
+						<span class="input-group-addon">
+							<input type="checkbox" id="enablePlayersBrowser" <?php echo (@$settings["enablePlayersBrowser"]) ? "checked" : "" ?>>
+						</span>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Enable session IP-lock</span>
+						<span class="input-group-addon">
+							<input type="checkbox" id="enableSessionIPLock" <?php echo (@$settings["enableSessionIPLock"]) ? "checked" : "" ?>>
+						</span>
+					</div>
 				</div>
 				<div class="well well-sm">
 					<h4>Aliases And Maximum Access-Levels</h4>
@@ -129,6 +137,7 @@
 			communityName: $("#communityName").val(),
 			permUpdateInt: $("#permUpdateInt").val(),
 			enablePlayersBrowser: $("#enablePlayersBrowser").is(":checked"),
+			enableSessionIPLock: $("#enableSessionIPLock").is(":checked"),
 			playerIDAlias: $("#playerIDAlias").val(),
 			timeJoinedAlias: $("#timeJoinedAlias").val(),
 			lastPlayedAlias: $("#lastPlayedAlias").val(),

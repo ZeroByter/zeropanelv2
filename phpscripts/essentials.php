@@ -96,6 +96,8 @@
     $mysqlConn;
 
     function get_mysql_conn(){
+		global $mysqlConn;
+		
         if(isset($mysqlConn)){
             return $mysqlConn;
         }else{

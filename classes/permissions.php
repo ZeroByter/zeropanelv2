@@ -64,7 +64,6 @@
 
         public function delete($id){
             $conn = get_mysql_conn();
-    		$id = mysqli_real_escape_string($conn, $id);
             $firstPermission = end(self::get_all());
             $accesslevel = self::get_by_id($id)->accesslevel;
             $stmt = $conn->prepare("DELETE FROM permissions WHERE id=?");
